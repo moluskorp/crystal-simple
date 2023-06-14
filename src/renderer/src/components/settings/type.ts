@@ -1,6 +1,6 @@
-import { ChangeEvent } from 'react'
-
 // ----------------------------------------------------------------------
+
+import { ChangeEvent } from 'react'
 
 type ColorVariants = {
   name: string

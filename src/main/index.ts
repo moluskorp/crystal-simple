@@ -2,8 +2,10 @@ import { app, shell, BrowserWindow } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import { createFileRoute, createURLRoute } from 'electron-router-dom'
+
 import icon from '../../resources/icon.png?asset'
 import './ipc'
+import { runMigrations } from './migrations'
 
 function createWindow(): void {
   const mainWindow = new BrowserWindow({
@@ -26,8 +28,6 @@ function createWindow(): void {
     shell.openExternal(details.url)
     return { action: 'deny' }
   })
-
-  const id = Math.random().toString()
 
   const devServerURL = createURLRoute(
     process.env.ELECTRON_RENDERER_URL!,
@@ -52,7 +52,9 @@ app.whenReady().then(() => {
     optimizer.watchWindowShortcuts(window)
   })
 
-  createWindow()
+  runMigrations().then(() => {
+    createWindow()
+  })
 
   app.on('activate', function () {
     if (BrowserWindow.getAllWindows().length === 0) createWindow()

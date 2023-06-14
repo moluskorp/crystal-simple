@@ -1,3 +1,39 @@
+import { Box, Button, Card, Container, Typography } from '@mui/material'
+import { Page } from '@renderer/components/Page'
+import useSettings from '@renderer/hooks/useSettings'
+import { useNavigate } from 'react-router-dom'
+
 export function Home() {
-  return <h1>Hello Electron</h1>
+  const { themeStretch } = useSettings()
+  const navigate = useNavigate()
+
+  return (
+    <Page title="Home">
+      <Container maxWidth={themeStretch ? false : 'lg'}>
+        <Card sx={{ p: 3 }}>
+          <Box
+            sx={{
+              display: 'grid',
+              columnGap: 2,
+              rowGap: 3,
+              gridTemplateColumns: {
+                xs: 'repeat(1, 1fr)',
+                sm: 'repeat(2, 1fr)',
+              },
+            }}
+          >
+            <Typography variant="h1"> Hello Electron</Typography>
+            <Button
+              variant="contained"
+              onClick={() => {
+                navigate('/taxes')
+              }}
+            >
+              Abrir Tributação
+            </Button>
+          </Box>
+        </Card>
+      </Container>
+    </Page>
+  )
 }
