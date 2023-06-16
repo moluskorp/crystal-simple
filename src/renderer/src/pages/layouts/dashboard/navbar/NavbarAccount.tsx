@@ -31,39 +31,37 @@ export default function NavbarAccount({ isCollapse }: Props) {
   const { user } = useAuth()
 
   return (
-    <Link href={PATH_DASHBOARD.user.account}>
-      <Link href={PATH_DASHBOARD.user.account} underline="none" color="inherit">
-        <RootStyle
+    <Link href={PATH_DASHBOARD.user.account} underline="none" color="inherit">
+      <RootStyle
+        sx={{
+          ...(isCollapse && {
+            bgcolor: 'transparent',
+          }),
+        }}
+      >
+        <MyAvatar />
+
+        <Box
           sx={{
+            ml: 2,
+            transition: (theme) =>
+              theme.transitions.create('width', {
+                duration: theme.transitions.duration.shorter,
+              }),
             ...(isCollapse && {
-              bgcolor: 'transparent',
+              ml: 0,
+              width: 0,
             }),
           }}
         >
-          <MyAvatar />
-
-          <Box
-            sx={{
-              ml: 2,
-              transition: (theme) =>
-                theme.transitions.create('width', {
-                  duration: theme.transitions.duration.shorter,
-                }),
-              ...(isCollapse && {
-                ml: 0,
-                width: 0,
-              }),
-            }}
-          >
-            <Typography variant="subtitle2" noWrap>
-              {user?.displayName}
-            </Typography>
-            <Typography variant="body2" noWrap sx={{ color: 'text.secondary' }}>
-              {user?.role}
-            </Typography>
-          </Box>
-        </RootStyle>
-      </Link>
+          <Typography variant="subtitle2" noWrap>
+            {user?.displayName}
+          </Typography>
+          <Typography variant="body2" noWrap sx={{ color: 'text.secondary' }}>
+            {user?.role}
+          </Typography>
+        </Box>
+      </RootStyle>
     </Link>
   )
 }

@@ -47,6 +47,8 @@ export function Taxes() {
 
   const { themeStretch } = useSettings()
 
+  console.log('href: ', PATH_DASHBOARD.root)
+
   return (
     <Page title="Tributação: Cadastro">
       <Container maxWidth={themeStretch ? false : 'lg'}>

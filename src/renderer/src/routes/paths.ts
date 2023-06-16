@@ -10,8 +10,7 @@ const ROOTS_DASHBOARD = '/dashboard'
 // ----------------------------------------------------------------------
 
 export const PATH_AUTH = {
-  root: ROOTS_AUTH,
-  login: path(ROOTS_AUTH, '/login'),
+  login: '/',
   register: path(ROOTS_AUTH, '/register'),
   loginUnprotected: path(ROOTS_AUTH, '/login-unprotected'),
   registerUnprotected: path(ROOTS_AUTH, '/register-unprotected'),
@@ -90,6 +89,9 @@ export const PATH_DASHBOARD = {
   product: {
     root: path(ROOTS_DASHBOARD, '/products'),
     new: path(ROOTS_DASHBOARD, '/product'),
+  },
+  taxes: {
+    root: path(ROOTS_DASHBOARD, '/taxes'),
   },
   eCommerce: {
     root: path(ROOTS_DASHBOARD, '/e-commerce'),

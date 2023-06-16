@@ -2,11 +2,14 @@ import { ReactElement } from 'react'
 // @mui
 import {
   Box,
-  Link,
   Typography,
   BreadcrumbsProps,
   Breadcrumbs as MUIBreadcrumbs,
+  styled,
+  useTheme,
 } from '@mui/material'
+
+import { Link } from 'react-router-dom'
 
 // ----------------------------------------------------------------------
 
@@ -26,25 +29,29 @@ export interface Props extends BreadcrumbsProps {
 }
 
 function LinkItem({ link }: LinkItemProps) {
+  console.log('breadcrumbs', link)
+  const theme = useTheme()
+
+  const Links = styled(Link)({
+    lineHeight: 2,
+    display: 'flex',
+    alignItems: 'center',
+    color: theme.palette.text.primary,
+    textDecoration: 'none',
+    '& > div': { display: 'inherit' },
+    '&:hover': {
+      textDecoration: 'underline',
+    },
+  })
+
   const { href = '', name, icon } = link
   return (
-    <Link
-      key={name}
-      variant="body2"
-      href={href}
-      sx={{
-        lineHeight: 2,
-        display: 'flex',
-        alignItems: 'center',
-        color: 'text.primary',
-        '& > div': { display: 'inherit' },
-      }}
-    >
+    <Links key={name} to={href}>
       {icon && (
         <Box sx={{ mr: 1, '& svg': { width: 20, height: 20 } }}>{icon}</Box>
       )}
       {name}
-    </Link>
+    </Links>
   )
 }
 

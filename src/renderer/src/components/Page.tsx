@@ -14,11 +14,6 @@ interface Props extends BoxProps {
 export const Page = forwardRef<HTMLDivElement, Props>(
   ({ children, title = '', meta, ...other }, ref) => (
     <>
-      <head>
-        <title>{`${title} | Molter`}</title>
-        {meta}
-      </head>
-
       <Box ref={ref} {...other}>
         {children}
       </Box>

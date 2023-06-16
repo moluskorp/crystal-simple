@@ -49,8 +49,6 @@ export function DashboardLayout() {
 
   const verticalLayout = themeLayout === 'vertical'
 
-  console.log('Estamos aqui')
-
   if (verticalLayout) {
     return (
       <>

@@ -1,6 +1,7 @@
 import { Box, Button, Card, Container, Typography } from '@mui/material'
 import { Page } from '@renderer/components/Page'
 import useSettings from '@renderer/hooks/useSettings'
+import { PATH_DASHBOARD } from '@renderer/routes/paths'
 import { useNavigate } from 'react-router-dom'
 
 export function Home() {
@@ -26,7 +27,7 @@ export function Home() {
             <Button
               variant="contained"
               onClick={() => {
-                navigate('/taxes')
+                navigate(PATH_DASHBOARD.taxes.root)
               }}
             >
               Abrir Tributação
