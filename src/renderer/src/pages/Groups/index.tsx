@@ -76,11 +76,7 @@ export function Groups() {
     orderBy,
     rowsPerPage,
     page,
-    setPage,
-    //
     selected,
-    onSelectAllRows,
-    //
     onSort,
     onChangeDense,
     onChangePage,
@@ -96,38 +92,32 @@ export function Groups() {
 
   useEffect(() => {
     const searchParams = {
-      searchName: groupsFiltered || '*',
+      name: groupsFiltered || '*',
       page,
-      rowsPerPage,
+      rows: rowsPerPage,
     }
-    // ipcRenderer.on('group-ipcrender-findAllByName', (event, args) => {
-    //   setTableData(args)
-    // })
-    // ipcRenderer.on('group-ipcrender-findAllByName-error', (event, args) => {
-    //   showAlert(args, 'error')
-    // })
-    // ipcRenderer.send('group-ipcmain-findAllByName', searchParams)
+    window.api.group
+      .fetchList(searchParams)
+      .then((result) => setTableData(result.data))
   }, [page, rowsPerPage, groupsFiltered, showAlert])
 
   const handleFilterName = (filteredName: string) => {
     setFilterName(filteredName)
   }
 
-  async function handleDeleteGroup(id: string) {
+  async function handleDeleteGroup(id: number) {
     const newTableData = tableData.map((data) => {
       if (data.id === id) {
         return { ...data, active: false }
       }
       return data
     })
-    // ipcRenderer.on('group-ipcrender-delete', (event, args) => {
-    //   showAlert('Grupo deletado com sucesso', 'warning')
-    //   setTableData(newTableData)
-    // })
-    // ipcRenderer.send('group-ipcmain-delete', id)
+    await window.api.group.delete({ id })
+    setTableData(newTableData)
+    showAlert('Grupo deletado com sucesso', 'error')
   }
 
-  async function handleRestoreGroup(id: string) {
+  async function handleRestoreGroup(id: number) {
     let updatedGroup = {} as GroupManager
     const newTableData = tableData.map((data) => {
       if (data.id === id) {
@@ -136,14 +126,12 @@ export function Groups() {
       }
       return data
     })
-    // ipcRenderer.on('group-ipcrender-restore', (event, args) => {
-    //   showAlert('Grupo restaurado com sucesso', 'warning')
-    //   setTableData(newTableData)
-    // })
-    // ipcRenderer.send('group-ipcmain-restore', id)
+    await window.api.group.update(updatedGroup)
+    setTableData(newTableData)
+    showAlert('Grupo restaurado com sucesso', 'warning')
   }
 
-  function handleEditGroup(id: string) {
+  function handleEditGroup(id: number) {
     navigate(PATH_DASHBOARD.group.root + `/${id}`)
   }
 
@@ -190,12 +178,7 @@ export function Groups() {
                   dense={dense}
                   numSelected={selected.length}
                   rowCount={tableData.length}
-                  onSelectAllRows={(checked) =>
-                    onSelectAllRows(
-                      checked,
-                      tableData.map((row) => row.id),
-                    )
-                  }
+                  onSelectAllRows={() => {}}
                   actions={
                     <Tooltip title="Delete">
                       <IconButton
@@ -223,7 +206,7 @@ export function Groups() {
                       <GroupTableRow
                         key={row.id}
                         row={row}
-                        selected={selected.includes(row.id)}
+                        selected={selected.includes(String(row.id))}
                         onSelectRow={() => alert(`Selecionado ${row.id}`)}
                         onDeleteRow={() => handleDeleteGroup(row.id)}
                         onEditRow={() => handleEditGroup(row.id)}

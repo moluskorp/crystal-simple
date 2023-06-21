@@ -1,24 +1,14 @@
+import {
+  GetGroupTableDTO,
+  Group,
+  deleteGroupTableDTO,
+  getGroupTableByNameDTO,
+  getListGroupTableDTO,
+  insertGroupTableDTO,
+  selectGroupByIdTableDTO,
+  updateGroupTableDTO,
+} from '@shared/types/group'
 import { db } from './dbmgr'
-
-export interface insertGroupTableDTO {
-  name: string
-}
-
-export interface getListGroupTableDTO {
-  name: string
-  page: number
-  rows: number
-}
-
-export interface deleteGroupTableDTO {
-  id: string
-}
-
-export interface updateGroupTableDTO {
-  name: string
-  id: string
-  active: boolean
-}
 
 export const countGroupTable = () => {
   const qry = 'SELECT count(*) FROM grp_group limit 1'
@@ -48,11 +38,23 @@ export const insertGroupTable = ({ name }: insertGroupTableDTO) => {
   })
 }
 
-export const getAllGroupTable = () => {
-  const qry = 'SELECT * FROM grp_group ORDER BY grp_name'
+export const getAllGroupTable = (): Promise<Group[]> => {
+  const qry =
+    'SELECT grp_id as id, grp_name as name, grp_active as active FROM grp_group ORDER BY grp_name'
   return new Promise((res) => {
-    db.all(qry, (_, rows) => {
+    db.all(qry, (_, rows: Group[]) => {
       res(rows)
+    })
+  })
+}
+
+export const getGroupTableByName = ({
+  name,
+}: getGroupTableByNameDTO): Promise<Group> => {
+  const qry = `SELECT grp_id as id, grp_name as name, grp_active as active FROM grp_group WHERE UPPER(grp_name) = UPPER('${name}')`
+  return new Promise((res) => {
+    db.all(qry, (_, rows: Group[]) => {
+      res(rows[0])
     })
   })
 }
@@ -61,20 +63,29 @@ export const getListGroupTable = ({
   name,
   page,
   rows,
-}: getListGroupTableDTO) => {
+}: getListGroupTableDTO): Promise<Group[]> => {
   const skip = Number(page * rows)
   const take = Number(rows)
   const searchName = name === '*' ? '' : String(name)
-  const qry = `SELECT * FROM grp_group WHERE grp_name LIKE '${searchName}' ORDER BY grp_name LIMIT ${take} OFFSET ${skip}`
+  const qry = `SELECT grp_id as id, grp_name as name, grp_active as active FROM grp_group WHERE grp_name LIKE '%${searchName}%' ORDER BY grp_name LIMIT ${take} OFFSET ${skip}`
   return new Promise((res) => {
-    db.all(qry, (_, rows) => {
+    db.all(qry, (_, rows: Group[]) => {
+      res(rows)
+    })
+  })
+}
+
+export const getGroupTable = ({ id }: GetGroupTableDTO): Promise<Group> => {
+  const qry = `SELECT grp_id as id, grp_name as name, grp_active as active FROM grp_group WHERE grp_id = ${id}`
+  return new Promise((res) => {
+    db.all(qry, (_, rows: Group) => {
       res(rows)
     })
   })
 }
 
 export const deleteGroupTable = ({ id }: deleteGroupTableDTO) => {
-  const qry = `UPDATE grp_group SET grp_active = false WHERE grp_id = '${id}'`
+  const qry = `UPDATE grp_group SET grp_active = false WHERE grp_id = ${id}`
   return new Promise((res) => {
     db.all(qry, (_, rows) => {
       res(rows)
@@ -83,10 +94,21 @@ export const deleteGroupTable = ({ id }: deleteGroupTableDTO) => {
 }
 
 export const updateGroupTable = ({ id, name, active }: updateGroupTableDTO) => {
-  const qry = `UPDATE grp_group SET grp_active = ${active}, grp_name = '${name}' WHERE grp_id = '${id}'`
+  const qry = `UPDATE grp_group SET grp_active = ${active}, grp_name = '${name}' WHERE grp_id = ${id}`
   return new Promise((res) => {
     db.all(qry, (_, rows) => {
       res(rows)
+    })
+  })
+}
+
+export const selectGroupByIdTable = ({
+  id,
+}: selectGroupByIdTableDTO): Promise<Group> => {
+  const qry = `SELECT grp_id as id, grp_name as name, grp_active as active FROM grp_group WHERE grp_id = ${id}`
+  return new Promise((res) => {
+    db.all(qry, (_, rows: Group[]) => {
+      res(rows[0])
     })
   })
 }

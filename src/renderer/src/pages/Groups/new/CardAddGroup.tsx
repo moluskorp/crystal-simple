@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom'
 
 export function CardAddGroup() {
   const { showAlert } = useAlert()
-  const { reset, getValues } = useFormContext()
+  const { reset, getValues } = useFormContext<{ name: string }>()
   const navigate = useNavigate()
   const [loading, setLoading] = useState(false)
 
@@ -17,12 +17,18 @@ export function CardAddGroup() {
     navigate(-1)
   }
 
-  function finishRegistratio(event: FormEvent) {
+  async function finishRegistratio(event: FormEvent) {
     try {
       event.preventDefault()
       setLoading(true)
       const values = getValues()
-      Cadastrar GFrupo
+      const response = await window.api.group.create(values)
+      if (response.type === 'error') {
+        showAlert(response.message!, 'error')
+        return
+      }
+      showAlert('Grupo cadastrado com sucesso')
+      handleReset()
     } catch (err: any) {
       showAlert(err, 'error')
     } finally {
@@ -31,9 +37,9 @@ export function CardAddGroup() {
   }
 
   return (
-    <Card sx={{p: 3}}>
+    <Card sx={{ p: 3 }}>
       <form onSubmit={finishRegistratio}>
-      <Box
+        <Box
           sx={{
             display: 'flex',
             alignItems: 'center',

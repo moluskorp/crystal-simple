@@ -4,9 +4,11 @@ import HeaderBreadcrumbs from '@renderer/components/HeaderBreadcrumbs'
 import { Page } from '@renderer/components/Page'
 import { Stepper } from '@renderer/components/Stepper'
 import { PagesProvider } from '@renderer/contexts/PagesContext'
+import useSettings from '@renderer/hooks/useSettings'
 import { PATH_DASHBOARD } from '@renderer/routes/paths'
 import { FormProvider, useForm } from 'react-hook-form'
 import * as zod from 'zod'
+import { CardAddGroup } from './CardAddGroup'
 
 const steps = ['Informe o nome do grupo']
 
@@ -41,7 +43,9 @@ export function NewGroup() {
           </Grid>
           <FormProvider {...methods}>
             <Grid container>
-              <Grid item xs={12} md={12}></Grid>
+              <Grid item xs={12} md={12}>
+                <CardAddGroup />
+              </Grid>
             </Grid>
           </FormProvider>
         </PagesProvider>

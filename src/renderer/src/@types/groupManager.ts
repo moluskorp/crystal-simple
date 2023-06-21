@@ -1,5 +1,5 @@
 export type GroupManager = {
-  id: string
+  id: number
   name: string
   active: boolean
 }
