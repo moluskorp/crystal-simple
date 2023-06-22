@@ -1,6 +1,6 @@
 import { LoadingButton } from '@mui/lab'
 import { Box, Button, InputAdornment } from '@mui/material'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useFormContext } from 'react-hook-form'
 import { RHFSelect, RHFTextField } from '../../../components/hook-form'
 import { usePages } from '../../../contexts/PagesContext'
@@ -8,12 +8,19 @@ import { NewTaxeFormData } from '@renderer/pages/Taxes'
 import { Taxe } from '../../../../../shared/types/taxes'
 
 interface Props {
-  finishRegistration: (data: NewTaxeFormData) => void
+  finishRegistration: (
+    data: NewTaxeFormData,
+    updating: boolean,
+    id?: number,
+  ) => void
   ncm: string
   loading: boolean
 }
 
 export function TaxeDetails({ finishRegistration, ncm, loading }: Props) {
+  const [updatingTaxe, setUpdatingTaxe] = useState(false)
+  const [taxeId, setTaxeId] = useState(0)
+
   const { handleSubmit, watch, reset, setValue } =
     useFormContext<NewTaxeFormData>()
 
@@ -38,6 +45,8 @@ export function TaxeDetails({ finishRegistration, ncm, loading }: Props) {
     setValue('cofinsPercentage', data.cofinsPercentage || '')
     setValue('pisPercentage', data.pisPercentage || '')
     setValue('fcpPercentage', data.fcpPercentage || '')
+    setUpdatingTaxe(true)
+    setTaxeId(data.id)
   }
 
   useEffect(() => {
@@ -46,10 +55,15 @@ export function TaxeDetails({ finishRegistration, ncm, loading }: Props) {
         setFields(data)
       }
     })
+    // eslint-disable-next-line
   }, [ncm])
 
+  function submitForm(data: NewTaxeFormData) {
+    finishRegistration(data, updatingTaxe, taxeId)
+  }
+
   return (
-    <form onSubmit={handleSubmit(finishRegistration)}>
+    <form onSubmit={handleSubmit(submitForm)}>
       <Box
         sx={{
           display: 'grid',
@@ -125,7 +139,7 @@ export function TaxeDetails({ finishRegistration, ncm, loading }: Props) {
         {ipiCst === '50' ? (
           <RHFTextField
             name="ipiPercentage"
-            label="Porcentagem"
+            label="IPI"
             type="number"
             mask="00"
             InputProps={{
@@ -184,7 +198,7 @@ export function TaxeDetails({ finishRegistration, ncm, loading }: Props) {
         <br />
         <RHFTextField
           name="fcpPercentage"
-          label="Porcentagem"
+          label="FCP"
           type="number"
           mask="00"
           InputProps={{

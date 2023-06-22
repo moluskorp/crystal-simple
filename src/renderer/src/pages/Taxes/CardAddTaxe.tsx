@@ -7,6 +7,7 @@ import { useFormContext } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { NewTaxeFormData } from '.'
 import { useAlert } from '@renderer/hooks/Alert'
+import { ErrorResponse } from '../../../../shared/types/error'
 
 export function CardAddTaxe() {
   const { activeStep } = usePages()
@@ -57,7 +58,7 @@ export function CardAddTaxe() {
   )
 
   const finishRegistration = useCallback(
-    async (data: NewTaxeFormData) => {
+    async (data: NewTaxeFormData, updating: boolean, id?: number) => {
       try {
         setLoading(true)
         clearErrors()
@@ -65,12 +66,18 @@ export function CardAddTaxe() {
         if (haveErrors) {
           return
         }
-        const response = await window.api.taxe.create(data)
+        let response: ErrorResponse
+        if (updating) {
+          response = await window.api.taxe.update({ id: id!, ...data })
+        } else {
+          response = await window.api.taxe.create(data)
+        }
         if (response.type === 'error') {
           showAlert(response.message!, 'error')
           return
         }
-        showAlert('Tributação cadastrada com sucesso!', 'success')
+        const alertMessage = updating ? 'atualizada' : 'cadastrada'
+        showAlert(`Tributação ${alertMessage} com sucesso!`, 'success')
         handleReset()
       } catch (err: any) {
         showAlert(err.message, 'error')
