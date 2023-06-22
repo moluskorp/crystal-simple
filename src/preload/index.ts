@@ -14,6 +14,15 @@ import {
 } from '../shared/types/group'
 
 import { IPC } from '../shared/constants/ipc'
+import {
+  CreateTaxeResponse,
+  FetchAllTaxesResponse,
+  FetchTaxeResponse,
+  UpdateTaxeRespone,
+  getTaxeTableByNcmDTO,
+  insertTaxeTableDTO,
+  updateTaxeTableDTO,
+} from 'src/shared/types/taxes'
 
 declare global {
   export interface Window {
@@ -43,6 +52,20 @@ const api = {
     },
     select(req: selectGroupByIdTableDTO): Promise<SelectGroupResponse> {
       return ipcRenderer.invoke(IPC.GROUP.SELECT, req)
+    },
+  },
+  taxe: {
+    create(req: insertTaxeTableDTO): Promise<CreateTaxeResponse> {
+      return ipcRenderer.invoke(IPC.TAXE.CREATE, req)
+    },
+    fetchAll(): Promise<FetchAllTaxesResponse> {
+      return ipcRenderer.invoke(IPC.TAXE.FETCH_ALL)
+    },
+    fetch(req: getTaxeTableByNcmDTO): Promise<FetchTaxeResponse> {
+      return ipcRenderer.invoke(IPC.TAXE.FETCH, req)
+    },
+    update(req: updateTaxeTableDTO): Promise<UpdateTaxeRespone> {
+      return ipcRenderer.invoke(IPC.TAXE.UPDATE, req)
     },
   },
 }

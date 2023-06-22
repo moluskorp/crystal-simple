@@ -27,9 +27,11 @@ interface CustomShadowOptions {
 }
 
 declare module '@mui/material/styles' {
+  // eslint-disable-next-line
   interface Theme {
     customShadows: CustomShadowOptions
   }
+  // eslint-disable-next-line
   interface ThemeOptions {
     customShadows?: CustomShadowOptions
   }

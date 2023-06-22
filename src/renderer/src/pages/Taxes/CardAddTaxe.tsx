@@ -6,7 +6,6 @@ import { useCallback, useState } from 'react'
 import { useFormContext } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { NewTaxeFormData } from '.'
-import { api } from '@renderer/services/apiClient'
 import { useAlert } from '@renderer/hooks/Alert'
 
 export function CardAddTaxe() {
@@ -25,12 +24,12 @@ export function CardAddTaxe() {
 
   const resolveErrors = useCallback(
     (data: NewTaxeFormData) => {
-      const icmsPercentageIsEmpty = !data.taxationPercentage
+      const icmsPercentageIsEmpty = !data.icmsPercentage
       const ipiPercentageIsEmpty = !data.ipiPercentage
       const pisPercentageIsEmpty = !data.pisPercentage
       const cofinsPercentageIsEmpty = !data.cofinsPercentage
       let error = false
-      if (data.taxeNature === 'taxed' && icmsPercentageIsEmpty) {
+      if (data.icmsNature === 'taxed' && icmsPercentageIsEmpty) {
         setError('taxationPercentage', {
           message: 'Campo obrigatório',
         })
@@ -66,20 +65,15 @@ export function CardAddTaxe() {
         if (haveErrors) {
           return
         }
-        await api.post('/taxes', data)
+        const response = await window.api.taxe.create(data)
+        if (response.type === 'error') {
+          showAlert(response.message!, 'error')
+          return
+        }
         showAlert('Tributação cadastrada com sucesso!', 'success')
         handleReset()
       } catch (err: any) {
-        if (err.name === 'AxiosError') {
-          showAlert(err.response.data.error, 'error')
-        } else {
-          const { response } = err
-          if (response) {
-            showAlert(response.data.message, 'error')
-          } else {
-            showAlert(err.message, 'error')
-          }
-        }
+        showAlert(err.message, 'error')
       } finally {
         setLoading(false)
       }

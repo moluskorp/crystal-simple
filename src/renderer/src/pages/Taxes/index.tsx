@@ -15,8 +15,8 @@ const steps = ['Informe o NCM', 'Informe a Tributação']
 
 const schema = zod.object({
   ncm: zod.string(),
-  taxeNature: zod.string(),
-  taxationPercentage: zod.string(),
+  icmsNature: zod.string(),
+  icmsPercentage: zod.string(),
   icmsReduction: zod.string(),
   ipiCst: zod.string(),
   ipiPercentage: zod.string(),
@@ -33,12 +33,12 @@ export function Taxes() {
     resolver: zodResolver(schema),
     defaultValues: {
       ncm: '',
-      taxeNature: 'substitution',
-      taxationPercentage: '',
+      icmsNature: 'substitution',
+      icmsPercentage: '',
       icmsReduction: '',
       ipiCst: '50',
       ipiPercentage: '',
-      pisCofinsCst: '01',
+      pisCofinsCst: '0',
       pisPercentage: '',
       cofinsPercentage: '',
       fcpPercentage: '',

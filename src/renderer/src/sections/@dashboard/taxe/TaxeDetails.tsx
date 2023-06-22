@@ -4,8 +4,8 @@ import { useEffect } from 'react'
 import { useFormContext } from 'react-hook-form'
 import { RHFSelect, RHFTextField } from '../../../components/hook-form'
 import { usePages } from '../../../contexts/PagesContext'
-import { api } from '../../../services/apiClient'
 import { NewTaxeFormData } from '@renderer/pages/Taxes'
+import { Taxe } from '../../../../../shared/types/taxes'
 
 interface Props {
   finishRegistration: (data: NewTaxeFormData) => void
@@ -14,9 +14,10 @@ interface Props {
 }
 
 export function TaxeDetails({ finishRegistration, ncm, loading }: Props) {
-  const { handleSubmit, watch, reset } = useFormContext<NewTaxeFormData>()
+  const { handleSubmit, watch, reset, setValue } =
+    useFormContext<NewTaxeFormData>()
 
-  const taxeNature = watch('taxeNature')
+  const icmsNature = watch('icmsNature')
   const ipiCst = watch('ipiCst')
   const pisCofinsCst = watch('pisCofinsCst')
 
@@ -27,13 +28,23 @@ export function TaxeDetails({ finishRegistration, ncm, loading }: Props) {
     previousPage()
   }
 
-  function setFields(data: any) {
-    console.log(data)
+  function setFields(data: Taxe) {
+    setValue('icmsNature', data.icmsNature)
+    setValue('icmsPercentage', data.icmsPercentage || '')
+    setValue('icmsReduction', data.icmsReduction || '')
+    setValue('ipiCst', data.ipiCst)
+    setValue('ipiPercentage', data.ipiPercentage || '')
+    setValue('pisCofinsCst', data.pisCofinsCst)
+    setValue('cofinsPercentage', data.cofinsPercentage || '')
+    setValue('pisPercentage', data.pisPercentage || '')
+    setValue('fcpPercentage', data.fcpPercentage || '')
   }
 
   useEffect(() => {
-    api.get(`/taxes/${ncm}`).then((data) => {
-      setFields(data)
+    window.api.taxe.fetch({ ncm }).then(({ data }) => {
+      if (data) {
+        setFields(data)
+      }
     })
   }, [ncm])
 
@@ -65,15 +76,15 @@ export function TaxeDetails({ finishRegistration, ncm, loading }: Props) {
         <h2>ICMS</h2>
         <br />
 
-        <RHFSelect name="taxeNature">
+        <RHFSelect name="icmsNature">
           <option value="substitution">Substituição Tributária</option>
           <option value="free">Isento</option>
           <option value="taxed">Tributado</option>
         </RHFSelect>
-        {taxeNature === 'taxed' ? (
+        {icmsNature === 'taxed' ? (
           <Box sx={{ marginLeft: 'auto', display: 'flex', gap: 2 }}>
             <RHFTextField
-              name="taxationPercentage"
+              name="icmsPercentage"
               label="Porcentagem"
               type="number"
               mask="00"

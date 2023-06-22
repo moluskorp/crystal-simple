@@ -8,4 +8,10 @@ export const IPC = {
     DELETE: 'group: delete',
     SELECT: 'group: select',
   },
+  TAXE: {
+    CREATE: 'taxe: create',
+    FETCH_ALL: 'taxe: fetch all',
+    FETCH: 'taxe: fetch',
+    UPDATE: 'taxe: update',
+  },
 }
