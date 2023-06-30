@@ -29,7 +29,6 @@ export interface Props extends BreadcrumbsProps {
 }
 
 function LinkItem({ link }: LinkItemProps) {
-  console.log('breadcrumbs', link)
   const theme = useTheme()
 
   const Links = styled(Link)({

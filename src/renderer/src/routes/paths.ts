@@ -88,10 +88,11 @@ export const PATH_DASHBOARD = {
   },
   product: {
     root: path(ROOTS_DASHBOARD, '/products'),
-    new: path(ROOTS_DASHBOARD, '/product'),
+    new: path(ROOTS_DASHBOARD, '/products/new'),
   },
   taxes: {
     root: path(ROOTS_DASHBOARD, '/taxes'),
+    addByNcm: path(ROOTS_DASHBOARD, '/taxes/:ncm'),
   },
   eCommerce: {
     root: path(ROOTS_DASHBOARD, '/e-commerce'),

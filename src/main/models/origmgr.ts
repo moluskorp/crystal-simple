@@ -1,3 +1,4 @@
+import { Origin } from '@shared/types/orig'
 import { db } from './dbmgr'
 
 export const countOrigTable = () => {
@@ -57,6 +58,15 @@ export const seedOrigTable = (): Promise<void> => {
           })
         })
       })
+    })
+  })
+}
+
+export const selectAllOrigTable = (): Promise<Origin[]> => {
+  const qry = 'SELECT * FROM orig_origin order by code'
+  return new Promise((res) => {
+    db.all(qry, (_, rows: Origin[]) => {
+      res(rows)
     })
   })
 }

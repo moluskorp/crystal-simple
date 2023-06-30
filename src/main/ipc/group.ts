@@ -53,6 +53,14 @@ ipcMain.handle(
 )
 
 ipcMain.handle(
+  IPC.GROUP.FETCH_ALL_ACTIVE,
+  async (): Promise<FetchAllGroupsResponse> => {
+    const result = await grp.getAllGroupActiveTable()
+    return { data: result }
+  },
+)
+
+ipcMain.handle(
   IPC.GROUP.FETCH_LIST,
   async (
     _,

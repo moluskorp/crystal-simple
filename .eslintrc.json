@@ -3,6 +3,7 @@
 		"@rocketseat/eslint-config/react"
 	],
   "rules": {
-    "promise/param-names": "off"
+    "promise/param-names": "off",
+    "camelcase": "off"
   }
 }

@@ -1,7 +1,6 @@
 import { ErrorResponse } from './error'
 
 export interface Taxe {
-  id: number
   ncm: string
   icmsNature: string
   icmsPercentage?: string
@@ -14,7 +13,7 @@ export interface Taxe {
   fcpPercentage?: string
 }
 
-export type insertTaxeTableDTO = Omit<Taxe, 'id'>
+export type insertTaxeTableDTO = Taxe
 
 export type getTaxeTableByNcmDTO = {
   ncm: string

@@ -48,6 +48,16 @@ export const getAllGroupTable = (): Promise<Group[]> => {
   })
 }
 
+export const getAllGroupActiveTable = (): Promise<Group[]> => {
+  const qry =
+    'SELECT grp_id as id, grp_name as name, grp_active as active FROM grp_group WHERE grp_active = true ORDER BY grp_name'
+  return new Promise((res) => {
+    db.all(qry, (_, rows: Group[]) => {
+      res(rows)
+    })
+  })
+}
+
 export const getGroupTableByName = ({
   name,
 }: getGroupTableByNameDTO): Promise<Group> => {

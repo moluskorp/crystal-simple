@@ -32,6 +32,14 @@ export function Home() {
             >
               Abrir Tributação
             </Button>
+            <Button
+              variant="contained"
+              onClick={() => {
+                navigate(PATH_DASHBOARD.product.root)
+              }}
+            >
+              Abrir Produtos
+            </Button>
           </Box>
         </Card>
       </Container>

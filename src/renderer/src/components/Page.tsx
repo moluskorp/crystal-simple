@@ -1,6 +1,7 @@
 import { forwardRef, ReactNode } from 'react'
+import useSettings from '@renderer/hooks/useSettings'
 // @mui
-import { Box, BoxProps } from '@mui/material'
+import { Box, BoxProps, Container } from '@mui/material'
 
 // ----------------------------------------------------------------------
 
@@ -12,11 +13,15 @@ interface Props extends BoxProps {
 
 // eslint-disable-next-line
 export const Page = forwardRef<HTMLDivElement, Props>(
-  ({ children, title = '', meta, ...other }, ref) => (
+  function ({ children, title = '', meta, ...other }, ref){
+
+  const { themeStretch } = useSettings()
+
+  return (
     <>
       <Box ref={ref} {...other}>
-        {children}
+        <Container maxWidth={themeStretch ? false : 'lg'}>{children}</Container>
       </Box>
     </>
-  ),
-)
+  )
+})
