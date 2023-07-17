@@ -5,6 +5,7 @@ import { testMigrtion } from './testTable'
 import { migrationTaxeTable } from './migrationTaxeTable'
 import { migrationProductTable } from './migrationProductTable'
 import { migrationProductEanTable } from './migrationProductEanTable'
+import { migrationUserTable } from './migrationUserTable'
 
 export async function runMigrations() {
   // const version = Number(app.getVersion().replaceAll('.', ''))
@@ -18,4 +19,5 @@ export async function runMigrations() {
   await migrationTaxeTable()
   await migrationProductTable()
   await migrationProductEanTable()
+  await migrationUserTable()
 }

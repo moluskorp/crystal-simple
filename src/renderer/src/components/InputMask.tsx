@@ -15,5 +15,11 @@ const InternalMaskTextField = IMaskMixin((props: any) => (
 ))
 
 export function InputMask(props: Props) {
-  return <InternalMaskTextField lazy {...(props as any)} />
+  return (
+    <InternalMaskTextField
+      defaultValue={props.defaultValue}
+      lazy
+      {...(props as any)}
+    />
+  )
 }

@@ -40,7 +40,6 @@ export function Group() {
 
   useEffect(() => {
     window.api.group.select({ id: Number(id!) }).then(({ data }) => {
-      console.log(data)
       setValue('name', data.name)
       setGroup(data)
     })
@@ -70,7 +69,7 @@ export function Group() {
         <Container maxWidth={themeStretch ? false : 'lg'}>
           <form onSubmit={handleSubmit(handleSaveGroup)}>
             <HeaderBreadcrumbs
-              heading={`Detakges do grupo: ${group.name}`}
+              heading={`Detalhes do grupo: ${group.name}`}
               links={[
                 { name: 'Dashboard', href: PATH_DASHBOARD.root },
                 { name: 'Grupos', href: PATH_DASHBOARD.group.root },
@@ -101,7 +100,7 @@ export function Group() {
                       },
                     }}
                   >
-                    <RHFTextField name="name" label="Nome" />
+                    <RHFTextField name="name" label="Nome" required />
                   </Box>
                 </Card>
               </Grid>

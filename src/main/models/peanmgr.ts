@@ -37,18 +37,16 @@ export const insertProductEanTable = ({
   prd_id,
   generated,
   weightProduct,
-  generated_ean,
-}: insertProductEanTableDTO): Promise<void> => {
-  const oi = `INSERT INTO pean_productean (pean_ean, pean_product_id, pean_generated, pean_weightproduct , pean_generated_ean) VALUES ('${ean}', ${prd_id}, ${generated}, ${weightProduct}, ${generated_ean})`
-  console.log('oie', oi)
-  const qry = `INSERT INTO pean_productean (pean_ean, pean_product_id, pean_generated, pean_weightproduct , pean_generated_ean) VALUES ('${ean}', ${prd_id}, ${generated}, ${weightProduct}, ${generated_ean})`
+  generated_ean = 0,
+}: insertProductEanTableDTO): Promise<ProductEan> => {
+  const qry = `INSERT INTO pean_productean (pean_ean, pean_product_id, pean_generated, pean_weightproduct , pean_generated_ean) VALUES ('${ean}', ${prd_id}, ${generated}, ${weightProduct}, ${generated_ean}) RETURNING *`
+  console.log(qry, 'qry')
   return new Promise((res, rej) => {
-    db.all(qry, (e) => {
+    db.all(qry, (e, rows: ProductEan[]) => {
       if (e) {
-        console.log('e', e)
         rej(e)
       }
-      res()
+      res(rows[0])
     })
   })
 }
@@ -90,6 +88,20 @@ export const getProductEanByEanTable = ({
         rej(e)
       }
       res(rows[0])
+    })
+  })
+}
+
+export const getProductEanByPrdIdTable = ({
+  prd_id,
+}: getProductEanByProductIdTableDTO): Promise<ProductEan[]> => {
+  const qry = `SELECT * FROM pean_productean WHERE pean_product_id = ${prd_id}`
+  return new Promise((res, rej) => {
+    db.all(qry, (e, rows: ProductEan[]) => {
+      if (e) {
+        rej(e)
+      }
+      res(rows)
     })
   })
 }

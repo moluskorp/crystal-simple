@@ -14,7 +14,7 @@ import { fToNow } from '../../../../utils/formatTime'
 import { _contacts } from '../../../../_mock'
 // components
 import Iconify from '../../../../components/Iconify'
-import Scrollbar from '../../../../components/Scrollbar'
+import { Scrollbar } from '../../../../components/Scrollbar'
 import MenuPopover from '../../../../components/MenuPopover'
 import BadgeStatus from '../../../../components/BadgeStatus'
 import { IconButtonAnimate } from '../../../../components/animate'
@@ -76,7 +76,7 @@ export default function ContactsPopover() {
           <Typography component="span">({_contacts.length})</Typography>
         </Typography>
 
-        <Scrollbar sx={{ height: ITEM_HEIGHT * 6 }}>
+        <Scrollbar>
           {_contacts.map((contact) => (
             <MenuItem key={contact.id}>
               <ListItemAvatar sx={{ position: 'relative' }}>

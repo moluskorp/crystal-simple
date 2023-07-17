@@ -43,11 +43,26 @@ import {
   FetchAllProductEanResponse,
   UpdateProductEanResponse,
   deleteProductEanTableDTO,
+  generateEanIPCDTO,
   getProductEanByEanTableDTO,
   getProductEanByProductIdTableDTO,
   insertProductEanTableDTO,
   updateProductEanTableDTO,
 } from 'src/shared/types/productean'
+import {
+  CreateUserResponse,
+  DeleteUserResponse,
+  FechAllUserResponse,
+  FetchUserResponse,
+  LoginUserResponse,
+  UpdateUserResponse,
+  deleteUserTableDTO,
+  getListUserTableDTO,
+  getUserTableDTO,
+  insertUserTableDTO,
+  loginUserTableDTO,
+  updateUserTableDTO,
+} from 'src/shared/types/user'
 
 declare global {
   export interface Window {
@@ -119,6 +134,9 @@ const api = {
     create(req: insertProductEanTableDTO): Promise<CreateProductEanResponse> {
       return ipcRenderer.invoke(IPC.PRODUCT_EAN.CREATE, req)
     },
+    generate(req: generateEanIPCDTO): Promise<CreateProductEanResponse> {
+      return ipcRenderer.invoke(IPC.PRODUCT_EAN.GENERATE, req)
+    },
     fetchAll(): Promise<FetchAllProductEanResponse> {
       return ipcRenderer.invoke(IPC.PRODUCT_EAN.FETCH_ALL)
     },
@@ -151,6 +169,34 @@ const api = {
     },
     update(req: updateTaxeTableDTO): Promise<UpdateTaxeRespone> {
       return ipcRenderer.invoke(IPC.TAXE.UPDATE, req)
+    },
+  },
+  user: {
+    create(req: insertUserTableDTO): Promise<CreateUserResponse> {
+      return ipcRenderer.invoke(IPC.USER.CREATE, req)
+    },
+    fetchList(req: getListUserTableDTO): Promise<FechAllUserResponse> {
+      return ipcRenderer.invoke(IPC.USER.FETCH_LIST, req)
+    },
+    fetch(req: getUserTableDTO): Promise<FetchUserResponse> {
+      return ipcRenderer.invoke(IPC.USER.FETCH, req)
+    },
+    login(req: loginUserTableDTO): Promise<LoginUserResponse> {
+      return ipcRenderer.invoke(IPC.USER.LOGIN, req)
+    },
+    delete(req: deleteUserTableDTO): Promise<DeleteUserResponse> {
+      return ipcRenderer.invoke(IPC.USER.DELETE, req)
+    },
+    recover(req: deleteUserTableDTO): Promise<DeleteUserResponse> {
+      return ipcRenderer.invoke(IPC.USER.RECOVER, req)
+    },
+    update(req: updateUserTableDTO): Promise<UpdateUserResponse> {
+      return ipcRenderer.invoke(IPC.USER.UPDATE, req)
+    },
+  },
+  testCrypt: {
+    create(): Promise<void> {
+      return ipcRenderer.invoke('crypt')
     },
   },
 }

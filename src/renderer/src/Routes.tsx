@@ -10,6 +10,7 @@ import { PATH_DASHBOARD } from './routes/paths'
 import { Products } from './pages/Products'
 import { NewProduct } from './pages/Products/new'
 import { NcmAddTaxe } from './pages/Taxes/NcmAddTaxe'
+import { Product } from './pages/Products/Product'
 
 export function Routes() {
   return (
@@ -29,6 +30,10 @@ export function Routes() {
             <Route path="/dashboard/groups/new" element={<NewGroup />} />
             <Route path={PATH_DASHBOARD.product.root} element={<Products />} />
             <Route path={PATH_DASHBOARD.product.new} element={<NewProduct />} />
+            <Route
+              path={`${PATH_DASHBOARD.product.root}/:id`}
+              element={<Product />}
+            />
           </Route>
         </>
       }

@@ -17,7 +17,7 @@ import HeaderBreadcrumbs from '@renderer/components/HeaderBreadcrumbs'
 import Iconify from '@renderer/components/Iconify'
 import { Link } from '@renderer/components/Link'
 import { Page } from '@renderer/components/Page'
-import Scrollbar from '@renderer/components/Scrollbar'
+import { Scrollbar } from '@renderer/components/Scrollbar'
 import TableEmptyRows from '@renderer/components/table/TableEmptyRows'
 import TableHeadCustom from '@renderer/components/table/TableHeadCustom'
 import TableNoData from '@renderer/components/table/TableNoData'
@@ -99,7 +99,7 @@ export function Groups() {
     window.api.group
       .fetchList(searchParams)
       .then((result) => setTableData(result.data))
-  }, [page, rowsPerPage, groupsFiltered, showAlert])
+  }, [page, rowsPerPage, groupsFiltered])
 
   const handleFilterName = (filteredName: string) => {
     setFilterName(filteredName)

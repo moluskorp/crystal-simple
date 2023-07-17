@@ -30,10 +30,20 @@ export const IPC = {
   },
   PRODUCT_EAN: {
     CREATE: 'productean: create',
+    DELETE: 'productean: delete',
     FETCH_ALL: 'productean: fetch all',
     FETCH_BY_PRD_ID: 'productean: fetch by prd id',
     FETCH_BY_EAN: 'productean: fetch by ean',
-    DELETE: 'productean: delete',
+    GENERATE: 'productean: generate',
     UPDATE: 'productean: update',
+  },
+  USER: {
+    CREATE: 'user: create',
+    LOGIN: 'user: login',
+    DELETE: 'user: delete',
+    FETCH: 'user: fetch',
+    FETCH_LIST: 'user: fetch list',
+    RECOVER: 'user: recover',
+    UPDATE: 'user: update',
   },
 }

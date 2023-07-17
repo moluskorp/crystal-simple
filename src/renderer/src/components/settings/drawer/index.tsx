@@ -11,7 +11,6 @@ import cssStyles from '../../../utils/cssStyles'
 import { NAVBAR, defaultSettings } from '../../../config'
 //
 import Iconify from '../../Iconify'
-import Scrollbar from '../../Scrollbar'
 import { varFade } from '../../animate'
 //
 import ToggleButton from './ToggleButton'
@@ -22,6 +21,7 @@ import SettingContrast from './SettingContrast'
 import SettingDirection from './SettingDirection'
 import SettingFullscreen from './SettingFullscreen'
 import SettingColorPresets from './SettingColorPresets'
+import { Scrollbar } from '@renderer/components/Scrollbar'
 
 // ----------------------------------------------------------------------
 
@@ -145,7 +145,7 @@ export default function SettingsDrawer() {
 
             <Divider sx={{ borderStyle: 'dashed' }} />
 
-            <Scrollbar sx={{ flexGrow: 1 }}>
+            <Scrollbar>
               <Stack spacing={3} sx={{ p: 3 }}>
                 <Stack spacing={1.5}>
                   <Typography variant="subtitle2">Mode</Typography>

@@ -18,9 +18,36 @@ interface IProps extends StandardTextFieldProps {
 type Props = IProps & TextFieldProps
 
 export default function RHFTextField({ name, mask, ...other }: Props) {
-  const { control } = useFormContext()
+  const { control, watch } = useFormContext()
+
+  let value: null | string = null
 
   if (mask) {
+    value = watch(name)
+    console.log(name, value)
+  }
+
+  if (mask) {
+    if (value) {
+      return (
+        <Controller
+          name={name}
+          control={control}
+          render={({ field, fieldState: { error } }) => (
+            <InputMask
+              fullWidth
+              mask={mask}
+              InputLabelProps={{ shrink: true }}
+              error={!!error}
+              helperText={error?.message}
+              {...field}
+              {...other}
+              ref={null}
+            />
+          )}
+        />
+      )
+    }
     return (
       <Controller
         name={name}

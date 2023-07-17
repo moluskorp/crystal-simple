@@ -18,6 +18,7 @@ export default function FormProvider({ children, onSubmit, methods }: Props) {
         onSubmit()
       }
     },
+
     [onSubmit],
   )
 

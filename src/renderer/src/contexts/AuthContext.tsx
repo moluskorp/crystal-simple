@@ -1,25 +1,17 @@
-import {
-  createContext,
-  ReactNode,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react'
-// import Router from 'next/router';
+import { createContext, ReactNode, useCallback, useMemo, useState } from 'react'
 // import { setCookie, parseCookies, destroyCookie } from 'nookies';
-import { api } from '../services/apiClient'
 // import { cookiesName } from '../config'
 
 type SignInCredentials = {
-  email: string
+  username: string
   password: string
 }
 
 type User = {
-  email: string
-  displayName: string
-  role: any
+  username: string
+  name: string
+  id: number
+  // role: any
   // permissions: string[];
   // roles: string[];
 }
@@ -27,7 +19,7 @@ type User = {
 interface AuthContextData {
   signIn: (credentials: SignInCredentials) => Promise<void>
   signOut: () => void
-  user: User | undefined
+  user: User | null | undefined
   isAuthenticated: boolean
 }
 
@@ -39,83 +31,32 @@ export const AuthContext = createContext<AuthContextData>({} as AuthContextData)
 
 // let authChannel: BroadcastChannel;
 
-export function signOut() {
-  // destroyCookie(undefined, cookiesName.token);
-  // destroyCookie(undefined, cookiesName.refreshToken);
-  // authChannel.postMessage('signOut');
-  // Router.push('/');
-}
-
 export function AuthProvider({ children }: AuthProviderProps) {
-  const [user, setUser] = useState<User>()
+  const [user, setUser] = useState<User | null>()
   const isAuthenticated = !!user
 
-  // useEffect(() => {
-  //   authChannel = new BroadcastChannel('auth');
-  //   authChannel.onmessage = message => {
-  //     switch (message.data) {
-  //       case 'signOut':
-  //         signOut();
-  //         break;
-  //       default:
-  //         break;
-  //     }
-  //   };
-  // }, []);
-
-  useEffect(() => {
-    // const { [cookiesName.token]: token } = parseCookies();
-    // if (token) {
-    //   api
-    //     .get('/me')
-    //     .then(response => {
-    //       const userLogged = response.data as User;
-    //       setUser(userLogged);
-    //     })
-    //     .catch(() => {
-    //       signOut();
-    //     });
-    // }
+  const signOut = useCallback(() => {
+    setUser(null)
   }, [])
 
-  const signIn = useCallback(async ({ email, password }: SignInCredentials) => {
-    const response = await api.post('/login', {
-      username: email,
-      password,
-    })
+  const signIn = useCallback(
+    async ({ username, password }: SignInCredentials) => {
+      const response = await window.api.user.login({ username, password })
 
-    const { data } = response.data
+      const { type } = response
 
-    if (data.type === 'error') {
-      throw new Error(data.message)
-    }
+      if (type === 'error') {
+        throw new Error(response.message)
+      }
 
-    // eslint-disable-next-line
-    const { access_token, refresh_token } = response.data;
+      const userLogged = response.data as User
 
-    // setCookie(null, cookiesName.token, access_token, {
-    //   maxAge: 60 * 60 * 24 * 30, // 30 days
-    //   path: '/',
-    // });
+      console.log('userLogged', userLogged)
 
-    // setCookie(null, cookiesName.refreshToken, refresh_token, {
-    //   maxAge: 60 * 60 * 24 * 30, // 30 days
-    //   path: '/',
-    // });
-
-    const userLogged = data as User
-
-    setUser(userLogged)
-
-    const headers = api.defaults.headers as any
-
-    // eslint-disable-next-line
-    headers.Authorization = `Bearer ${access_token}`;
-
-    // Router.push('/dashboard');
-
-    // authChannel.postMessage('signIn');
-  }, [])
+      setUser(userLogged)
+    },
+    [],
+  )
 
   const value = useMemo(
     () => ({
@@ -124,7 +65,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       user,
       signOut,
     }),
-    [signIn, isAuthenticated, user],
+    [signIn, isAuthenticated, user, signOut],
   )
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

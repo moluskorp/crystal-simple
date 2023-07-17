@@ -25,6 +25,11 @@ export type insertProductEanTableDTO = {
   generated_ean?: number
 }
 
+export type generateEanIPCDTO = {
+  prd_id: number
+  weightProduct: boolean
+}
+
 export type getProductEanByEanTableDTO = {
   ean: string
 }
@@ -51,7 +56,12 @@ export type deleteProductEanByProductIdTableDTO = { prd_id: number }
  * Responses
  */
 
-export type CreateProductEanResponse = ErrorResponse
+export type CreateProductEanResponse = ErrorResponse & {
+  data?: {
+    pean_id: number
+    pean_ean: string
+  }
+}
 
 export type FetchAllProductEanResponse = ErrorResponse & {
   data?: ProductEan[]

@@ -40,6 +40,14 @@ export function Home() {
             >
               Abrir Produtos
             </Button>
+            <Button
+              variant="contained"
+              onClick={() => {
+                window.api.testCrypt.create()
+              }}
+            >
+              Teste Crypt
+            </Button>
           </Box>
         </Card>
       </Container>
