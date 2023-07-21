@@ -46,7 +46,6 @@ export const insertProductTable = ({
   return new Promise((res, rej) => {
     db.all(qry, (err, rows: { prd_id: number }[]) => {
       if (err) {
-        console.log(err)
         rej(err)
       }
       res(rows[0])
@@ -140,8 +139,11 @@ export const updateProductTable = ({
   const price2 = Number(String(prd_price2).replaceAll(',', '.'))
   const coust = Number(String(prd_coust).replaceAll(',', '.'))
   const qry = `UPDATE prd_product SET prd_description = '${description}', prd_shortdescription = '${shortDescription}', prd_weightProduct = ${weightProduct}, prd_ncm = '${ncm}', prd_group_id = ${group_id}, prd_origin_id = ${origin_id}, prd_price1 = ${price1}, prd_price2 = ${price2}, prd_coust = ${coust}, prd_active = ${active} WHERE prd_id = ${id}`
-  return new Promise((res) => {
-    db.all(qry, () => {
+  return new Promise((res, rej) => {
+    db.all(qry, (e) => {
+      if (e) {
+        rej(e)
+      }
       res()
     })
   })

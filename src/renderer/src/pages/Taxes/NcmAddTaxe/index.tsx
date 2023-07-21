@@ -42,9 +42,9 @@ export function NcmAddTaxe() {
       icmsNature: 'substitution',
       icmsPercentage: '',
       icmsReduction: '',
-      ipiCst: '50',
+      ipiCst: '53',
       ipiPercentage: '',
-      pisCofinsCst: '0',
+      pisCofinsCst: '01',
       pisPercentage: '',
       cofinsPercentage: '',
       fcpPercentage: '',
@@ -142,6 +142,7 @@ export function NcmAddTaxe() {
                     ncm={ncm!}
                     finishRegistration={finishRegistration}
                     loading={loading}
+                    fromProduct={true}
                   />
                 </Card>
               </Grid>

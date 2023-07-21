@@ -136,6 +136,7 @@ ipcMain.handle(
     data: dto.updateProductTableDTO,
   ): Promise<dto.UpdateProductResponse> => {
     try {
+      console.log(data)
       await prd.updateProductTable(data)
       return { type: 'success' }
     } catch (e: any) {

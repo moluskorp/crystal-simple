@@ -37,7 +37,6 @@ export function CardAddProduct() {
         showAlert('Erro ao cadastrar produto', 'error')
         return 'error'
       }
-      showAlert('oie')
     } catch (err: any) {
       showAlert(err, 'error')
     } finally {

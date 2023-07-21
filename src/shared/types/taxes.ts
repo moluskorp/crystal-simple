@@ -1,6 +1,7 @@
 import { ErrorResponse } from './error'
 
 export interface Taxe {
+  id?: number
   ncm: string
   icmsNature: string
   icmsPercentage?: string

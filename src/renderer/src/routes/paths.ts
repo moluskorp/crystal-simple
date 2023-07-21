@@ -57,22 +57,10 @@ export const PATH_DASHBOARD = {
   user: {
     root: path(ROOTS_DASHBOARD, '/user'),
     new: path(ROOTS_DASHBOARD, '/user/new'),
-    list: path(ROOTS_DASHBOARD, '/user/list'),
-    cards: path(ROOTS_DASHBOARD, '/user/cards'),
-    profile: path(ROOTS_DASHBOARD, '/user/profile'),
-    account: path(ROOTS_DASHBOARD, '/user/account'),
-    edit: (name: string) => path(ROOTS_DASHBOARD, `/user/${name}/edit`),
-    demoEdit: path(ROOTS_DASHBOARD, `/user/reece-chung/edit`),
   },
   client: {
     root: path(ROOTS_DASHBOARD, '/clients'),
     new: path(ROOTS_DASHBOARD, '/client'),
-    list: path(ROOTS_DASHBOARD, '/clients/list'),
-    cards: path(ROOTS_DASHBOARD, '/client/cards'),
-    profile: path(ROOTS_DASHBOARD, '/client/profile'),
-    account: path(ROOTS_DASHBOARD, '/client/account'),
-    edit: (name: string) => path(ROOTS_DASHBOARD, `/client/${name}/edit`),
-    demoEdit: path(ROOTS_DASHBOARD, `/client/reece-chung/edit`),
   },
   group: {
     root: path(ROOTS_DASHBOARD, '/groups'),
@@ -89,6 +77,9 @@ export const PATH_DASHBOARD = {
   product: {
     root: path(ROOTS_DASHBOARD, '/products'),
     new: path(ROOTS_DASHBOARD, '/products/new'),
+  },
+  store: {
+    root: path(ROOTS_DASHBOARD, '/store'),
   },
   taxes: {
     root: path(ROOTS_DASHBOARD, '/taxes'),

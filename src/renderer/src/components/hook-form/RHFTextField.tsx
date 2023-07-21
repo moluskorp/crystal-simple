@@ -24,7 +24,6 @@ export default function RHFTextField({ name, mask, ...other }: Props) {
 
   if (mask) {
     value = watch(name)
-    console.log(name, value)
   }
 
   if (mask) {

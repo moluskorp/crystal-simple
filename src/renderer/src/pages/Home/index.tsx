@@ -43,10 +43,26 @@ export function Home() {
             <Button
               variant="contained"
               onClick={() => {
-                window.api.testCrypt.create()
+                navigate(PATH_DASHBOARD.user.root)
               }}
             >
-              Teste Crypt
+              Abrir Usuários
+            </Button>
+            <Button
+              variant="contained"
+              onClick={() => {
+                navigate(PATH_DASHBOARD.store.root)
+              }}
+            >
+              Abrir Loja
+            </Button>
+            <Button
+              variant="contained"
+              onClick={() => {
+                console.log('Gerando...')
+              }}
+            >
+              Gerar Carga
             </Button>
           </Box>
         </Card>

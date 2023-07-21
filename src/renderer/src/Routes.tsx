@@ -11,6 +11,10 @@ import { Products } from './pages/Products'
 import { NewProduct } from './pages/Products/new'
 import { NcmAddTaxe } from './pages/Taxes/NcmAddTaxe'
 import { Product } from './pages/Products/Product'
+import { Users } from './pages/Users'
+import { NewUser } from './pages/Users/new'
+import { User } from './pages/Users/User'
+import { Store } from './pages/Store'
 
 export function Routes() {
   return (
@@ -34,6 +38,13 @@ export function Routes() {
               path={`${PATH_DASHBOARD.product.root}/:id`}
               element={<Product />}
             />
+            <Route path={PATH_DASHBOARD.user.root} element={<Users />} />
+            <Route path={PATH_DASHBOARD.user.new} element={<NewUser />} />
+            <Route
+              path={`${PATH_DASHBOARD.user.root}/:id`}
+              element={<User />}
+            />
+            <Route path={PATH_DASHBOARD.store.root} element={<Store />} />
           </Route>
         </>
       }

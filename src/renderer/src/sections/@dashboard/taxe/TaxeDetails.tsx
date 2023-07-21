@@ -1,11 +1,12 @@
 import { LoadingButton } from '@mui/lab'
-import { Box, Button, InputAdornment } from '@mui/material'
+import { Box, Button, InputAdornment, MenuItem } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { useFormContext } from 'react-hook-form'
 import { RHFSelect, RHFTextField } from '../../../components/hook-form'
 import { usePages } from '../../../contexts/PagesContext'
 import { NewTaxeFormData } from '@renderer/pages/Taxes'
 import { Taxe } from '../../../../../shared/types/taxes'
+import { useNavigate } from 'react-router-dom'
 
 interface Props {
   finishRegistration: (
@@ -14,10 +15,16 @@ interface Props {
     id?: number,
   ) => void
   ncm: string
+  fromProduct?: boolean
   loading: boolean
 }
 
-export function TaxeDetails({ finishRegistration, ncm, loading }: Props) {
+export function TaxeDetails({
+  finishRegistration,
+  ncm,
+  loading,
+  fromProduct = false,
+}: Props) {
   const [updatingTaxe, setUpdatingTaxe] = useState(false)
   const [taxeId, setTaxeId] = useState(0)
 
@@ -29,9 +36,14 @@ export function TaxeDetails({ finishRegistration, ncm, loading }: Props) {
   const pisCofinsCst = watch('pisCofinsCst')
 
   const { previousPage } = usePages()
+  const navigate = useNavigate()
 
   function handleCancel() {
     reset()
+    if (fromProduct) {
+      navigate(-1)
+      return
+    }
     previousPage()
   }
 
@@ -91,9 +103,9 @@ export function TaxeDetails({ finishRegistration, ncm, loading }: Props) {
         <br />
 
         <RHFSelect name="icmsNature">
-          <option value="substitution">Substituição Tributária</option>
-          <option value="free">Isento</option>
-          <option value="taxed">Tributado</option>
+          <MenuItem value="substitution">Substituição Tributária</MenuItem>
+          <MenuItem value="free">Isento</MenuItem>
+          <MenuItem value="taxed">Tributado</MenuItem>
         </RHFSelect>
         {icmsNature === 'taxed' ? (
           <Box sx={{ marginLeft: 'auto', display: 'flex', gap: 2 }}>
@@ -130,11 +142,11 @@ export function TaxeDetails({ finishRegistration, ncm, loading }: Props) {
         <h2>IPI</h2>
         <br />
         <RHFSelect name="ipiCst">
-          <option value="50">Saída tributada</option>
-          <option value="51">Saída tributável com alíquota zero</option>
-          <option value="52">Saída isenta</option>
-          <option value="53">Saída não-tributada</option>
-          <option value="54">Saída com suspensão</option>
+          <MenuItem value="50">Saída tributada</MenuItem>
+          <MenuItem value="51">Saída tributável com alíquota zero</MenuItem>
+          <MenuItem value="52">Saída isenta</MenuItem>
+          <MenuItem value="53">Saída não-tributada</MenuItem>
+          <MenuItem value="54">Saída com suspensão</MenuItem>
         </RHFSelect>
         {ipiCst === '50' ? (
           <RHFTextField
@@ -156,11 +168,11 @@ export function TaxeDetails({ finishRegistration, ncm, loading }: Props) {
         <h2>Pis/Cofins</h2>
         <br />
         <RHFSelect name="pisCofinsCst">
-          <option value="01">Alíquota Básica </option>
-          <option value="02">Alíquota Diferenciada</option>
-          <option value="04">Monofásico</option>
-          <option value="06">Alíquota Zero</option>
-          <option value="07">Isento</option>
+          <MenuItem value="01">Alíquota Básica </MenuItem>
+          <MenuItem value="02">Alíquota Diferenciada</MenuItem>
+          <MenuItem value="04">Monofásico</MenuItem>
+          <MenuItem value="06">Alíquota Zero</MenuItem>
+          <MenuItem value="07">Isento</MenuItem>
         </RHFSelect>
         {pisCofinsCst === '02' ? (
           <Box sx={{ display: 'flex', marginLeft: 'auto', gap: 2 }}>

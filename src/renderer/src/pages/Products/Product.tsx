@@ -8,6 +8,10 @@ import * as zod from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Page } from '@renderer/components/Page'
 import {
+  ConfirmationDialog as ConfirmNcmNull,
+  ConfirmationDialog as ConfirmTaxe,
+} from '@renderer/components/ConfirmationDialog'
+import {
   FormProvider,
   RHFCheckbox,
   RHFSelect,
@@ -61,6 +65,8 @@ export function Product() {
   const [groups, setGroups] = useState<Group[]>([])
   const [origins, setOrigins] = useState<Origin[]>([])
   const [eans, setEans] = useState<ProductEan[]>([])
+  const [dialogNcmNullOpen, setDialogNcmNullOpen] = useState(false)
+  const [dialogConfirmTaxeOpen, setDialogConfirmTaxeOpen] = useState(false)
   const [generateEanDialogOpen, setGenerateEanDialogOpen] = useState(false)
 
   const { themeStretch } = useSettings()
@@ -87,9 +93,10 @@ export function Product() {
   const {
     handleSubmit,
     setValue,
-    setError,
     watch,
-    formState: { errors, isSubmitting },
+    getValues,
+    reset,
+    formState: { isSubmitting },
   } = formMethods
 
   const weightProductInput = watch('weightProduct')
@@ -128,17 +135,13 @@ export function Product() {
     const price1 = Number(data.price1.replace(',', '.'))
     const price2 = Number(data.price2.replace(',', '.'))
     const coust = Number(data.coust.replace(',', '.'))
-    return { ...data, id: product.id, price1, price2, coust }
-  }
-
-  async function onSubmit(data: ProductFormData) {
-    try {
-      const dataCorrect = correctData(data)
-      console.log('dataCorrect', dataCorrect)
-      await window.api.product.update(dataCorrect)
-      navigate(-1)
-    } catch (err: any) {
-      showAlert(err.message, 'error')
+    return {
+      ...data,
+      id: product.id,
+      price1,
+      price2,
+      coust,
+      active: product.active,
     }
   }
 
@@ -159,6 +162,52 @@ export function Product() {
     setEans(newEans)
   }
 
+  async function saveData() {
+    try {
+      const data = getValues()
+      const dataCorrect = correctData(data)
+      const result = await window.api.product.update(dataCorrect)
+      if (result.type === 'error') {
+        throw new Error(result.message)
+      }
+      showAlert('Produto atualizado com sucesso')
+    } catch (err: any) {
+      showAlert(err.message, 'error')
+    }
+  }
+
+  async function onSubmit(data: ProductFormData) {
+    try {
+      if (!data.ncm) {
+        setDialogNcmNullOpen(true)
+        return
+      }
+
+      const taxe = await window.api.taxe.fetch({ ncm: data.ncm })
+
+      if (!taxe.data) {
+        setDialogConfirmTaxeOpen(true)
+        return
+      }
+
+      await finishRegistration()
+    } catch (err: any) {
+      showAlert(err.message, 'error')
+    }
+  }
+
+  async function handleAddTaxe() {
+    await saveData()
+    const ncm = getValues('ncm')
+    navigate(`${PATH_DASHBOARD.taxes.root}/${ncm}`)
+    reset()
+  }
+
+  async function finishRegistration() {
+    await saveData()
+    navigate(-1)
+  }
+
   return (
     <Page title={`Produto: ${product.description}`}>
       <GenerateEanDialog
@@ -167,6 +216,22 @@ export function Product() {
         prd_id={product.id}
         weightProduct={weightProductInput}
         insertEan={insertEan}
+      />
+      <ConfirmTaxe
+        title="Tributação não cadastrada"
+        message="Tributação não cadastrada para o ncm informado, se você continuar esse item não sera enviado para o frente de caixa, deseja cadastrar a tributação agora?"
+        open={dialogConfirmTaxeOpen}
+        onAccept={handleAddTaxe}
+        onRecuse={finishRegistration}
+        setOpen={setDialogConfirmTaxeOpen}
+      />
+      <ConfirmNcmNull
+        title="Ncm não informado"
+        message="O ncm não foi informado se você continuar esse produto não será gerado para o frente de caixa, deseja continuar?"
+        open={dialogNcmNullOpen}
+        onAccept={finishRegistration}
+        onRecuse={() => {}}
+        setOpen={setDialogNcmNullOpen}
       />
       <FormProvider methods={formMethods} onSubmit={handleSubmit(onSubmit)}>
         <Container maxWidth={themeStretch ? false : 'lg'}>
@@ -306,6 +371,7 @@ export function Product() {
                             key={ean.pean_id}
                             secondaryAction={
                               <IconButton
+                                key={ean.pean_id}
                                 edge="end"
                                 aria-label="deletar"
                                 onClick={() => {
