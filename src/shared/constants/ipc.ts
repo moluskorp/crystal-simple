@@ -37,6 +37,16 @@ export const IPC = {
     GENERATE: 'productean: generate',
     UPDATE: 'productean: update',
   },
+  STATES: {
+    GET_STATES: 'states: get states',
+    GET_CITIES: 'states: get cities',
+  },
+  STORES: {
+    CREATE: 'stores: create',
+    CHECK_EXISTS: 'stores: check exists',
+    GET: 'stores: get',
+    UPDATE: 'stores: update',
+  },
   USER: {
     CREATE: 'user: create',
     LOGIN: 'user: login',

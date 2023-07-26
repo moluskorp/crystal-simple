@@ -63,6 +63,12 @@ import {
   loginUserTableDTO,
   updateUserTableDTO,
 } from 'src/shared/types/user'
+import {
+  GetCitiesRequest,
+  GetCitiesResponse,
+  GetStatesTableResponse,
+} from 'src/shared/types/state'
+import { CheckStoreExistsResponse, CreateStoreRequest, CreateStoreResponse, GetStoreResponse, UpdateStoreRequest, UpdateStoreResponse } from 'src/shared/types/store'
 
 declare global {
   export interface Window {
@@ -170,6 +176,28 @@ const api = {
     update(req: updateTaxeTableDTO): Promise<UpdateTaxeRespone> {
       return ipcRenderer.invoke(IPC.TAXE.UPDATE, req)
     },
+  },
+  state: {
+    getStates(): Promise<GetStatesTableResponse> {
+      return ipcRenderer.invoke(IPC.STATES.GET_STATES)
+    },
+    getCities(req: GetCitiesRequest): Promise<GetCitiesResponse> {
+      return ipcRenderer.invoke(IPC.STATES.GET_CITIES, req)
+    },
+  },
+  store: {
+    create(req: CreateStoreRequest): Promise<CreateStoreResponse> {
+      return ipcRenderer.invoke(IPC.STORES.CREATE, req)
+    },
+    checkStoreExists(): Promise<CheckStoreExistsResponse> {
+      return ipcRenderer.invoke(IPC.STORES.CHECK_EXISTS)
+    },
+    get(): Promise<GetStoreResponse> {
+      return ipcRenderer.invoke(IPC.STORES.GET)
+    },
+    update(req: UpdateStoreRequest): Promise<UpdateStoreResponse> {
+      return ipcRenderer.invoke(IPC.STORES.UPDATE, req)
+    }
   },
   user: {
     create(req: insertUserTableDTO): Promise<CreateUserResponse> {

@@ -9,6 +9,8 @@ import { Grid } from '@mui/material'
 import { CardAddStore } from './CardAddStore'
 import { LoadingButton } from '@mui/lab'
 import Iconify from '@renderer/components/Iconify'
+import { useAlert } from '@renderer/hooks/Alert'
+import { useNavigate } from 'react-router-dom'
 
 const schema = z.object({
   name: z.string().min(1, 'Campo obrigatóri'),
@@ -22,6 +24,8 @@ const schema = z.object({
   pis: z.string(),
   cofins: z.string(),
   postalcode: z.string(),
+  create: z.boolean(),
+  id: z.number()
 })
 
 export type EditStoreFormData = z.infer<typeof schema>
@@ -41,16 +45,34 @@ export function Store() {
       storeAlias: '',
       street: '',
       postalcode: '',
+      create: false,
+      id: 0,
     },
   })
+
+  const navigate = useNavigate()
 
   const {
     handleSubmit,
     formState: { isSubmitting },
   } = methods
+  const {showAlert} = useAlert()
 
-  function onSubmit(data: EditStoreFormData) {
-    console.log(data)
+  async function onSubmit(data: EditStoreFormData) {
+    const newData = {
+      ...data,
+      pis: Number(data.pis.replaceAll(',','.')),
+      cofins: Number(data.cofins.replaceAll(',','.'))
+    }
+    if(data.create) {
+      await window.api.store.create(newData)
+      showAlert('Loja criada com sucesso')
+      navigate(-1)
+      return
+    }
+    await window.api.store.update(newData)
+    showAlert('Loja atualizada com sucesso')
+    navigate(-1)
   }
 
   return (

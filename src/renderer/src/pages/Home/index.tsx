@@ -1,12 +1,27 @@
 import { Box, Button, Card, Container, Typography } from '@mui/material'
 import { Page } from '@renderer/components/Page'
+import { useAlert } from '@renderer/hooks/Alert'
 import useSettings from '@renderer/hooks/useSettings'
 import { PATH_DASHBOARD } from '@renderer/routes/paths'
+import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 export function Home() {
   const { themeStretch } = useSettings()
   const navigate = useNavigate()
+  const {showAlert} = useAlert()
+
+  useEffect(() => {
+    window.api.store.checkStoreExists().then(result => {
+      if (result.type === 'error'){
+        showAlert(result.message!, 'error')
+        return
+      }
+      if (!result.exists) {
+        navigate(PATH_DASHBOARD.store.root)
+      }
+    })
+  },[])
 
   return (
     <Page title="Home">
@@ -64,6 +79,7 @@ export function Home() {
             >
               Gerar Carga
             </Button>
+
           </Box>
         </Card>
       </Container>

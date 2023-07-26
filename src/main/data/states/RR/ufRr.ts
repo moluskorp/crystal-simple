@@ -1,0 +1,22 @@
+export const ufRR = [
+  { codeUf: '14', nameUf: 'RR', codeMun: '1400050', nameMun: 'Alto Alegre' },
+  { codeUf: '14', nameUf: 'RR', codeMun: '1400027', nameMun: 'Amajari' },
+  { codeUf: '14', nameUf: 'RR', codeMun: '1400100', nameMun: 'Boa Vista' },
+  { codeUf: '14', nameUf: 'RR', codeMun: '1400159', nameMun: 'Bonfim' },
+  { codeUf: '14', nameUf: 'RR', codeMun: '1400175', nameMun: 'Canta' },
+  { codeUf: '14', nameUf: 'RR', codeMun: '1400209', nameMun: 'Caracarai' },
+  { codeUf: '14', nameUf: 'RR', codeMun: '1400233', nameMun: 'Caroebe' },
+  { codeUf: '14', nameUf: 'RR', codeMun: '1400282', nameMun: 'Iracema' },
+  { codeUf: '14', nameUf: 'RR', codeMun: '1400308', nameMun: 'Mucajai' },
+  { codeUf: '14', nameUf: 'RR', codeMun: '1400407', nameMun: 'Normandia' },
+  { codeUf: '14', nameUf: 'RR', codeMun: '1400456', nameMun: 'Pacaraima' },
+  { codeUf: '14', nameUf: 'RR', codeMun: '1400472', nameMun: 'Rorainopolis' },
+  {
+    codeUf: '14',
+    nameUf: 'RR',
+    codeMun: '1400506',
+    nameMun: 'Sao Joao Da Baliza',
+  },
+  { codeUf: '14', nameUf: 'RR', codeMun: '1400605', nameMun: 'Sao Luiz' },
+  { codeUf: '14', nameUf: 'RR', codeMun: '1400704', nameMun: 'Uiramuta' },
+]

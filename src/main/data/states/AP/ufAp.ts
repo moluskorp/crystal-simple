@@ -1,0 +1,38 @@
+export const ufAP = [
+  { codeUf: '16', nameUf: 'AP', codeMun: '1600105', nameMun: 'Amapa' },
+  { codeUf: '16', nameUf: 'AP', codeMun: '1600204', nameMun: 'Calcoene' },
+  { codeUf: '16', nameUf: 'AP', codeMun: '1600212', nameMun: 'Cutias' },
+  { codeUf: '16', nameUf: 'AP', codeMun: '1600238', nameMun: 'Ferreira Gomes' },
+  { codeUf: '16', nameUf: 'AP', codeMun: '1600253', nameMun: 'Itaubal' },
+  {
+    codeUf: '16',
+    nameUf: 'AP',
+    codeMun: '1600279',
+    nameMun: 'Laranjal Do Jari',
+  },
+  { codeUf: '16', nameUf: 'AP', codeMun: '1600303', nameMun: 'Macapa' },
+  { codeUf: '16', nameUf: 'AP', codeMun: '1600402', nameMun: 'Mazagao' },
+  { codeUf: '16', nameUf: 'AP', codeMun: '1600501', nameMun: 'Oiapoque' },
+  {
+    codeUf: '16',
+    nameUf: 'AP',
+    codeMun: '1600154',
+    nameMun: 'Pedra Branca Do Amapari',
+  },
+  { codeUf: '16', nameUf: 'AP', codeMun: '1600535', nameMun: 'Porto Grande' },
+  { codeUf: '16', nameUf: 'AP', codeMun: '1600550', nameMun: 'Pracuuba' },
+  { codeUf: '16', nameUf: 'AP', codeMun: '1600600', nameMun: 'Santana' },
+  { codeUf: '16', nameUf: 'AP', codeMun: '1600055', nameMun: 'Serra Do Navio' },
+  {
+    codeUf: '16',
+    nameUf: 'AP',
+    codeMun: '1600709',
+    nameMun: 'Tartarugalzinho',
+  },
+  {
+    codeUf: '16',
+    nameUf: 'AP',
+    codeMun: '1600808',
+    nameMun: 'Vitoria Do Jari',
+  },
+]
