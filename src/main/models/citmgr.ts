@@ -1,4 +1,4 @@
-import { City, GetCitiesRequest } from '@shared/types/state'
+import { City, GetCitiesRequest, SearchCityRequest } from '@shared/types/state'
 import { db } from './dbmgr'
 
 export const countCityTable = () => {
@@ -58,6 +58,18 @@ export const getCityTable = ({ uf }: GetCitiesRequest): Promise<City[]> => {
         rej(e)
       }
       res(rows)
+    })
+  })
+}
+
+export const searchCityTable = ({ city }: SearchCityRequest): Promise<City> => {
+  const qry = `SELECT cit_id as id, cit_codeuf as codeUf, cit_nameuf as nameUf, cit_codemun as codeMun, cit_namemun as nameMun FROM cit_cities WHERE UPPER(cit_namemun) = UPPER('${city}') LIMIT 1`
+  return new Promise((res, rej) => {
+    db.all(qry, (e, rows: City[]) => {
+      if (e) {
+        rej(e)
+      }
+      res(rows[0])
     })
   })
 }

@@ -54,6 +54,10 @@ export const PATH_DASHBOARD = {
   calendar: path(ROOTS_DASHBOARD, '/calendar'),
   kanban: path(ROOTS_DASHBOARD, '/kanban'),
   permissionDenied: path(ROOTS_DASHBOARD, '/permission-denied'),
+  pdv: {
+    root: path(ROOTS_DASHBOARD, '/pdvs'),
+    new: path(ROOTS_DASHBOARD, '/pdvs/new'),
+  },
   user: {
     root: path(ROOTS_DASHBOARD, '/user'),
     new: path(ROOTS_DASHBOARD, '/user/new'),
@@ -61,6 +65,10 @@ export const PATH_DASHBOARD = {
   client: {
     root: path(ROOTS_DASHBOARD, '/clients'),
     new: path(ROOTS_DASHBOARD, '/client'),
+  },
+  finisher: {
+    root: path(ROOTS_DASHBOARD, '/finishers'),
+    new: path(ROOTS_DASHBOARD, '/finishers/new'),
   },
   group: {
     root: path(ROOTS_DASHBOARD, '/groups'),
@@ -80,6 +88,7 @@ export const PATH_DASHBOARD = {
   },
   store: {
     root: path(ROOTS_DASHBOARD, '/store'),
+    settings: path(ROOTS_DASHBOARD, '/store/settings'),
   },
   taxes: {
     root: path(ROOTS_DASHBOARD, '/taxes'),

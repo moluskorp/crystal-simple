@@ -1,4 +1,18 @@
 export const IPC = {
+  CEP: {
+    FIND: 'cep: find',
+  },
+  FINISHER: {
+    CREATE: 'finisher: create',
+    DELETE: 'finisher: delete',
+    FETCH_ALL: 'finisher: fetch_all',
+    FETCH: 'finisher: fetch',
+    FETCH_BY_CODE: 'finisher: fetch_by_code',
+    UPDATE: 'finisher: update',
+  },
+  FX: {
+    GENERATE: 'fx: generate',
+  },
   GROUP: {
     CREATE: 'group: create',
     FETCH_ALL: 'group: fetch all',
@@ -9,6 +23,15 @@ export const IPC = {
     DELETE: 'group: delete',
     SELECT: 'group: select',
   },
+  IS: {
+    DEV: 'is: dev',
+  },
+  LV: {
+    READ_FILES: 'lv: read files',
+  },
+  MIGRATION: {
+    RUN: 'migration: run',
+  },
   TAXE: {
     CREATE: 'taxe: create',
     FETCH_ALL: 'taxe: fetch all',
@@ -17,6 +40,13 @@ export const IPC = {
   },
   ORIGIN: {
     FETCH_ALL: 'origin: fetch all',
+  },
+  PDV: {
+    FETCH_ALL: 'pdv: fetch all',
+    FETCH: 'pdv: fetch',
+    CREATE: 'pdv: create',
+    DELETE: 'pdv: delete',
+    UPDATE: 'pdv: update',
   },
   PRODUCT: {
     FETCH_ALL: 'product: fetch all',
@@ -37,15 +67,24 @@ export const IPC = {
     GENERATE: 'productean: generate',
     UPDATE: 'productean: update',
   },
+  SELLS_PRODUCT: {
+    CREATE: 'sellsProduct: create',
+    DELETE: 'sellsProduct: delete',
+    UPDATE: 'sellsProduct: update',
+  },
   STATES: {
     GET_STATES: 'states: get states',
     GET_CITIES: 'states: get cities',
+    SEARCH_CITY: 'states: search city',
   },
   STORES: {
     CREATE: 'stores: create',
     CHECK_EXISTS: 'stores: check exists',
     GET: 'stores: get',
     UPDATE: 'stores: update',
+  },
+  TEST: {
+    RUN: 'test: run',
   },
   USER: {
     CREATE: 'user: create',

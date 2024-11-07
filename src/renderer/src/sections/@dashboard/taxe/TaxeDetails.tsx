@@ -49,6 +49,7 @@ export function TaxeDetails({
 
   function setFields(data: Taxe) {
     setValue('icmsNature', data.icmsNature)
+    setValue('description', data.ncm_description)
     setValue('icmsPercentage', data.icmsPercentage || '')
     setValue('icmsReduction', data.icmsReduction || '')
     setValue('ipiCst', data.ipiCst)
@@ -94,6 +95,15 @@ export function TaxeDetails({
           required
           autoFocus
           disabled
+          fullWidth={false}
+          value={ncm}
+          sx={{ width: '20rem' }}
+        />
+        <RHFTextField
+          name="description"
+          label="decription"
+          required
+          autoFocus
           fullWidth={false}
           value={ncm}
           sx={{ width: '20rem' }}

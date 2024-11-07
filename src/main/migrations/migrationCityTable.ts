@@ -152,7 +152,7 @@ export async function migrationCityTable() {
         await insertCityTable({
           cit_codeMun: city.codeMun,
           cit_codeUf: city.codeUf,
-          cit_nameMun: city.nameMun.replace("'", ""),
+          cit_nameMun: city.nameMun.replace("'", ''),
           cit_nameUf: city.nameUf,
         })
       })

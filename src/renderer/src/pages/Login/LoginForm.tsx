@@ -5,7 +5,7 @@ import Iconify from '@renderer/components/Iconify'
 import { FormProvider, RHFTextField } from '@renderer/components/hook-form'
 import { useAuth } from '@renderer/hooks/useAuth'
 import { PATH_DASHBOARD } from '@renderer/routes/paths'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import * as zod from 'zod'
@@ -28,16 +28,27 @@ export function LoginForm() {
   const methods = useForm<LoginFormData>({
     resolver: zodResolver(loginFormValidationSchema),
     defaultValues: {
-      username: 'moluskorp',
-      password: 'Moluskete',
+      username: '',
+      password: '',
     },
   })
 
   const {
     setError,
     handleSubmit,
+    setValue,
     formState: { errors, isSubmitting },
   } = methods
+
+  useEffect(() => {
+    window.api.is.dev().then((dev) => {
+      if (dev) {
+        setValue('username', 'moluskorp')
+        setValue('password', 'Moluskete')
+      }
+    })
+    // eslint-disable-next-line
+  }, [])
 
   async function onSubmit({ username, password }: LoginFormData) {
     try {

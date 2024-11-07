@@ -13,30 +13,34 @@ import {
   ConfirmationDialog as ConfirmTaxe,
 } from '@renderer/components/ConfirmationDialog'
 import { PATH_DASHBOARD } from '@renderer/routes/paths'
+import { ProductFinished } from '@renderer/sections/@dashboard/product/ProductFinished'
+import { ProductEan as IProductEan } from 'src/shared/types/productean'
 
 export function CardAddProduct() {
+  const [product, setProduct] = useState<IProductEan>({} as IProductEan)
   const [loading, setLoading] = useState(false)
   const [dialogNcmNullOpen, setDialogNcmNullOpen] = useState(false)
   const [dialogConfirmTaxeOpen, setDialogConfirmTaxeOpen] = useState(false)
   const { showAlert } = useAlert()
-  const { activeStep } = usePages()
+  const { activeStep, nextPage } = usePages()
   const { reset, getValues } = useFormContext<NewProductFormData>()
   const navigate = useNavigate()
 
   const handleReset = useCallback(() => {
     reset()
-    navigate(-1)
-  }, [reset, navigate])
+  }, [reset])
 
   const saveData = useCallback(async (): Promise<void | 'error'> => {
     try {
       setLoading(true)
       const values = getValues()
-      const result = await window.api.product.create(values)
+      const newValues = values.ncm ? values : { ...values, ncm: '00000000' }
+      const result = await window.api.product.create(newValues)
       if (result.type === 'error') {
         showAlert('Erro ao cadastrar produto', 'error')
         return 'error'
       }
+      setProduct(result.data!)
     } catch (err: any) {
       showAlert(err, 'error')
     } finally {
@@ -50,19 +54,20 @@ export function CardAddProduct() {
       return
     }
     handleReset()
-  }, [saveData, handleReset])
+    nextPage()
+  }, [saveData, nextPage, handleReset])
 
   const finishRegistration = useCallback(
     async (event: FormEvent) => {
       event.preventDefault()
       const values = getValues()
-      if (!values.ncm) {
-        setDialogNcmNullOpen(true)
-        return
+      let { ncm } = values
+      if (!ncm) {
+        ncm = '00000000'
       }
 
       const taxe = await window.api.taxe.fetch({
-        ncm: values.ncm,
+        ncm,
       })
 
       if (!taxe.data) {
@@ -97,7 +102,7 @@ export function CardAddProduct() {
       />
       <ConfirmTaxe
         title="Tributação não cadastrada"
-        message="Tributação não cadastrada para o ncm informado, se você continuar esse item não sera enviado para o frente de caixa, deseja cadastrar a tributação agora?"
+        message="Tributação não cadastrada para o ncm informado, deseja cadastrar a tributação agora?"
         open={dialogConfirmTaxeOpen}
         onAccept={handleAddTaxe}
         onRecuse={handleFinishProduct}
@@ -109,6 +114,7 @@ export function CardAddProduct() {
         {activeStep === 2 && (
           <ProductPrice onFinish={finishRegistration} loading={loading} />
         )}
+        {activeStep === 3 && <ProductFinished product={product} />}
       </Card>
     </>
   )

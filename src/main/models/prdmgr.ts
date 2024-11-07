@@ -76,7 +76,7 @@ export const getAllProductActiveTable = (): Promise<Product[]> => {
 export const getAllProductByNameTable = ({
   description,
 }: getProductListTableDTO): Promise<Product[]> => {
-  const qry = `SELECT prd_id as id, prd_description as description, prd_shortdescription as shortDescription, prd_weightProduct as weightProduct, prd_ncm as ncm, prd_group_id as group_id, prd_origin_id as origin_id, prd_price1 as price1, prd_price2 as price2, prd_coust as coust, prd_active as active FROM prd_product WHERE UPPER(prd_description) = UPPER('${description}' order by prd_description)`
+  const qry = `SELECT prd_id as id, prd_description as description, prd_shortdescription as shortDescription, prd_weightProduct as weightProduct, prd_ncm as ncm, prd_group_id as group_id, prd_origin_id as origin_id, prd_price1 as price1, prd_price2 as price2, prd_coust as coust, prd_active as active FROM prd_product WHERE UPPER(prd_description) = UPPER('${description}') order by prd_description`
   return new Promise((res) => {
     db.all(qry, (_, rows: Product[]) => {
       res(rows)

@@ -1,7 +1,9 @@
 import { forwardRef } from 'react'
 // @mui
 import { useTheme } from '@mui/material/styles'
-import { Box, BoxProps, Link } from '@mui/material'
+import { Box, BoxProps } from '@mui/material'
+import { PATH_DASHBOARD } from '@renderer/routes/paths'
+import { Link } from './Link'
 
 // ----------------------------------------------------------------------
 
@@ -75,7 +77,7 @@ const Logo = forwardRef<any, Props>(({ disabledLink = false, sx }, ref) => {
     return <>{logo}</>;
   }
 
-  return <Link href="/">{logo}</Link>
+  return <Link to={PATH_DASHBOARD.root}>{logo}</Link>
 })
 
 export default Logo

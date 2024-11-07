@@ -1,18 +1,13 @@
 // @mui
-import { Stack, Button, Typography } from '@mui/material'
+import { Stack } from '@mui/material'
 // hooks
-import { useAuth } from '../../../../hooks/useAuth'
 // import useLocales from '../../../../hooks/useLocales'
-// routes
-import { PATH_DOCS } from '../../../../routes/paths'
 // assets
 import { DocIllustration } from '../../../../assets'
 
 // ----------------------------------------------------------------------
 
 export default function NavbarDocs() {
-  const { user } = useAuth()
-
   return (
     <Stack
       spacing={3}
@@ -26,27 +21,6 @@ export default function NavbarDocs() {
       }}
     >
       <DocIllustration sx={{ width: 1 }} />
-
-      <div>
-        <Typography gutterBottom variant="subtitle1">
-          {'docs.hi'}, {user?.displayName}
-        </Typography>
-        <Typography
-          variant="body2"
-          sx={{ color: 'text.secondary', whiteSpace: 'pre-line' }}
-        >
-          {'docs.description'}
-        </Typography>
-      </div>
-
-      <Button
-        href={PATH_DOCS}
-        target="_blank"
-        rel="noopener"
-        variant="contained"
-      >
-        {'docs.documentation'}
-      </Button>
     </Stack>
   )
 }

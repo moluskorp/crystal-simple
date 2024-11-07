@@ -7,6 +7,7 @@ interface Props extends BoxProps {
 }
 
 export default function SvgIconStyle({ src, sx }: Props) {
+  console.log('SVg', src)
   return (
     <Box
       component="span"

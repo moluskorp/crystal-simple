@@ -30,14 +30,18 @@ ipcMain.handle(
         }
       }
 
+      const ean = data.ean || eanGenerated
+
       await pean.insertProductEanTable({
-        ean: data.ean || eanGenerated,
+        ean,
         prd_id: id,
         generated: !!generated,
         weightProduct: data.weightProduct!,
         generated_ean: Number(eanGenerated) || 0,
       })
-      return { type: 'success' }
+      const productEan = await pean.getProductEanByEanTable({ ean })
+
+      return { type: 'success', data: productEan }
     } catch (e: any) {
       return { type: 'error', message: e }
     }

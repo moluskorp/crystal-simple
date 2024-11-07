@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   Card,
   Container,
   Stack,
@@ -12,6 +13,7 @@ import Logo from '@renderer/components/Logo'
 import { Page } from '@renderer/components/Page'
 import useResponsive from '@renderer/hooks/useResponsive'
 import { LoginForm } from './LoginForm'
+import { useEffect } from 'react'
 
 /// ---------------------------------------------------------------
 // STYLES
@@ -123,6 +125,15 @@ export function Login() {
           </ContentStyle>
         </Container>
       </RootStyle>
+      <Button
+        onClick={async () => {
+          await window.api.lv.readFiles()
+
+          alert('abuuu')
+        }}
+      >
+        Ver
+      </Button>
     </Page>
   )
 }

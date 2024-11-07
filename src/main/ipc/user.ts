@@ -76,8 +76,9 @@ ipcMain.handle(
   IPC.USER.LOGIN,
   async (_, data: dto.loginUserTableDTO): Promise<dto.LoginUserResponse> => {
     try {
+      console.log({ data })
       const user = await usr.getUserByUsernameLogin(data.username)
-
+      console.log({ user })
       if (!user) {
         throw new Error('Usuário ou senha incorretos')
       }

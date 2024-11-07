@@ -47,7 +47,7 @@ export const insertTaxeTable = ({
 
 export const getAllTaxeTable = (): Promise<Taxe[]> => {
   const qry =
-    'SELECT tax_ncm as ncm, tax_icmsnature as icmsNature, tax_icmspercentage as icmsPercentage, tax_icmsreduction as icmsReduction, tax_ipicst as ipiCst, tax_ipipercentage as ipiPercentage, tax_piscofinscst as pisCofinsCst, tax_pispercentage as pisPercentage, tax_cofinspercentage as cofinsPercentage, tax_fcppercentage as fcpPercentage FROM tax_taxes'
+    'SELECT tax_ncm as ncm,  tax_icmsnature as icmsNature, tax_icmspercentage as icmsPercentage, tax_icmsreduction as icmsReduction, tax_ipicst as ipiCst, tax_ipipercentage as ipiPercentage, tax_piscofinscst as pisCofinsCst, tax_pispercentage as pisPercentage, tax_cofinspercentage as cofinsPercentage, tax_fcppercentage as fcpPercentage FROM tax_taxes'
   return new Promise((res) => {
     db.all(qry, (_, rows: Taxe[]) => {
       res(rows)
@@ -78,7 +78,7 @@ export const updateTaxeTable = ({
   cofinsPercentage,
   fcpPercentage,
 }: updateTaxeTableDTO): Promise<void> => {
-  const qry = `UPDATE tax_taxes SET tax_icmsnature = '${icmsNature}', tax_icmspercentage = '${icmsPercentage}', tax_icmsreduction = '${icmsReduction}', tax_ipicst = '${ipiCst}', tax_ipipercentage = '${ipiPercentage}', tax_piscofinscst = '${pisCofinsCst}', tax_pispercentage = '${pisPercentage}', tax_cofinspercentage = '${cofinsPercentage}', tax_fcppercentage = '${fcpPercentage}' WHERE tax_ncm = ${ncm}`
+  const qry = `UPDATE tax_taxes SET tax_icmsnature = '${icmsNature}',  tax_icmspercentage = '${icmsPercentage}', tax_icmsreduction = '${icmsReduction}', tax_ipicst = '${ipiCst}', tax_ipipercentage = '${ipiPercentage}', tax_piscofinscst = '${pisCofinsCst}', tax_pispercentage = '${pisPercentage}', tax_cofinspercentage = '${cofinsPercentage}', tax_fcppercentage = '${fcpPercentage}' WHERE tax_ncm = ${ncm}`
   return new Promise((res) => {
     db.all(qry, () => {
       res()

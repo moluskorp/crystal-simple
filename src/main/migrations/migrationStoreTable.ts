@@ -1,8 +1,8 @@
-import { countStoreTable, createStoreTable } from "../models/strmgr";
+import { countStoreTable, createStoreTable } from '../models/strmgr'
 
 export async function migrationStoreTable() {
   const databaseExists = await countStoreTable()
-  if(!databaseExists) {
+  if (!databaseExists) {
     await createStoreTable()
   }
 }

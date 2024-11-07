@@ -9,6 +9,7 @@ import {
   updateProductEanTableDTO,
 } from '@shared/types/productean'
 import { db } from './dbmgr'
+import { Fx6 } from '@shared/types/fx'
 
 export const countProductEanTable = () => {
   const qry = 'SELECT count(*) FROM pean_productean limit 1'
@@ -40,7 +41,6 @@ export const insertProductEanTable = ({
   generated_ean = 0,
 }: insertProductEanTableDTO): Promise<ProductEan> => {
   const qry = `INSERT INTO pean_productean (pean_ean, pean_product_id, pean_generated, pean_weightproduct , pean_generated_ean) VALUES ('${ean}', ${prd_id}, ${generated}, ${weightProduct}, ${generated_ean}) RETURNING *`
-  console.log(qry, 'qry')
   return new Promise((res, rej) => {
     db.all(qry, (e, rows: ProductEan[]) => {
       if (e) {
@@ -53,7 +53,7 @@ export const insertProductEanTable = ({
 
 export const getAllProductEanTable = (): Promise<ProductEan[]> => {
   const qry =
-    'SELECT * FROM pean_productean INNER JOIN prd_product ON prd_product.prd_id = pean_productean.pean_product_id'
+    'SELECT * FROM pean_productean INNER JOIN prd_product ON prd_product.prd_id = pean_productean.pean_product_id where pean_productean.prd_active = true'
   return new Promise((res, rej) => {
     db.all(qry, (e, rows: ProductEan[]) => {
       if (e) {
@@ -112,6 +112,19 @@ export const getAllByProductIdProductEanTable = ({
   const qry = `SELECT * FROM pean_productean WHERE pean_product_id = ${prd_id}`
   return new Promise((res, rej) => {
     db.all(qry, (e, rows: ProductEan[]) => {
+      if (e) {
+        rej(e)
+      }
+      res(rows)
+    })
+  })
+}
+
+export const getAllGenerateFx = (): Promise<Fx6[]> => {
+  const qry =
+    'SELECT * FROM pean_productean INNER JOIN prd_product as prd ON prd.prd_id = pean_productean.pean_product_id INNER JOIN tax_taxes as tax ON tax.tax_ncm = prd.prd_ncm INNER JOIN orig_origin as orig ON orig.id = prd.prd_origin_id WHERE prd_active = true'
+  return new Promise((res, rej) => {
+    db.all(qry, (e, rows: Fx6[]) => {
       if (e) {
         rej(e)
       }

@@ -6,7 +6,11 @@ import { FormEvent, useState } from 'react'
 import { useFormContext } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 
-export function CardAddGroup() {
+interface Props {
+  onFinish?: () => void
+}
+
+export function CardAddGroup({ onFinish }: Props) {
   const { showAlert } = useAlert()
   const { reset, getValues } = useFormContext<{ name: string }>()
   const navigate = useNavigate()
@@ -14,6 +18,10 @@ export function CardAddGroup() {
 
   function handleReset() {
     reset()
+    if (onFinish) {
+      onFinish()
+      return
+    }
     navigate(-1)
   }
 

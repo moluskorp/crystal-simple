@@ -3,7 +3,6 @@ import NotistackProvider from './components/NotistackProvider'
 import ProgressBar from './components/ProgressBar'
 import { MotionLazyContainer } from './components/animate'
 import { ChartStyle } from './components/chart'
-import ThemeSettings from './components/settings'
 import { AuthProvider } from './contexts/AuthContext'
 import { CollapseDrawerProvider } from './contexts/CollapseDrawerContext'
 import { AlertProvider } from './hooks/Alert'
@@ -15,15 +14,13 @@ export function App() {
       <MotionLazyContainer>
         <AlertProvider>
           <ThemeProvider>
-            <ThemeSettings>
-              <AuthProvider>
-                <NotistackProvider>
-                  <ChartStyle />
-                  <ProgressBar />
-                  <Routes />
-                </NotistackProvider>
-              </AuthProvider>
-            </ThemeSettings>
+            <AuthProvider>
+              <NotistackProvider>
+                <ChartStyle />
+                <ProgressBar />
+                <Routes />
+              </NotistackProvider>
+            </AuthProvider>
           </ThemeProvider>
         </AlertProvider>
       </MotionLazyContainer>

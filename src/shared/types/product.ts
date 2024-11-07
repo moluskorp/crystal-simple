@@ -1,6 +1,7 @@
 import { ErrorResponse } from './error'
 import { Group } from './group'
 import { Origin } from './orig'
+import { ProductEan } from './productean'
 
 export interface Product {
   id: number
@@ -44,7 +45,9 @@ export type deleteProductTableDTO = { id: number }
  * Responses
  */
 
-export type CreateProductResponse = ErrorResponse
+export type CreateProductResponse = ErrorResponse & {
+  data?: ProductEan
+}
 
 export type FetchAllProductsResponse = ErrorResponse & {
   data?: Product[]

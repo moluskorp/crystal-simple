@@ -15,6 +15,7 @@ const steps = ['Informe o NCM', 'Informe a Tributação']
 const schema = zod.object({
   ncm: zod.string(),
   icmsNature: zod.string(),
+  description: zod.string(),
   icmsPercentage: zod.string(),
   icmsReduction: zod.string(),
   ipiCst: zod.string(),

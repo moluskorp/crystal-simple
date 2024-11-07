@@ -23,7 +23,9 @@ import {
   insertTaxeTableDTO,
   updateTaxeTableDTO,
 } from 'src/shared/types/taxes'
+import { ErrorResponse } from 'src/shared/types/error'
 import { FetchAllOriginsResponse } from 'src/shared/types/orig'
+import { FindCepDTO, FindCepResponse } from 'src/shared/types/cep'
 import {
   CreateProductResponse,
   DeleteProductResponse,
@@ -67,8 +69,51 @@ import {
   GetCitiesRequest,
   GetCitiesResponse,
   GetStatesTableResponse,
+  SearchCityRequest,
+  SearchCityResponse,
 } from 'src/shared/types/state'
-import { CheckStoreExistsResponse, CreateStoreRequest, CreateStoreResponse, GetStoreResponse, UpdateStoreRequest, UpdateStoreResponse } from 'src/shared/types/store'
+import {
+  CheckStoreExistsResponse,
+  CreateStoreRequest,
+  CreateStoreResponse,
+  GetStoreResponse,
+  UpdateStoreRequest,
+  UpdateStoreResponse,
+} from 'src/shared/types/store'
+import { GenerateFxResponse } from 'src/shared/types/fx'
+import {
+  CreatePdvResponse,
+  DeletePdvResponse,
+  DeletePdvTableDTO,
+  FetchAllPdvResponse,
+  FetchPdvResponse,
+  GetPdvTableDTO,
+  InsertPdvTableDTO,
+  UpdatePdvResponse,
+  UpdatePdvTableDTO,
+} from 'src/shared/types/pdv'
+import { ReadFilesLvResponse } from 'src/shared/types/lv'
+import {
+  CreateSellsProductResponse,
+  DeleteSellsProductTableDTO,
+  DeleteSellsProductTableResponse,
+  InsertSellsProductTableDTO,
+  UpdateSellsProductTableDTO,
+  UpdateSellsProductTableResponse,
+} from 'src/shared/types/sellsproduct'
+import {
+  CreateFinisherResponse,
+  DeleteFinisherResponse,
+  DeleteFinisherTableDTO,
+  FetchFinisherResponse,
+  FetchListFinisherDTO,
+  FetchListFinisherResponse,
+  GetFinisherByCodeTableDTO,
+  GetFinisherTableDTO,
+  InsertFinisherTableDTO,
+  UpdateFinisherResponse,
+  UpdateFinisherTableDTO,
+} from 'src/shared/types/finisher'
 
 declare global {
   export interface Window {
@@ -77,6 +122,48 @@ declare global {
 }
 
 const api = {
+  cep: {
+    find(req: FindCepDTO): Promise<FindCepResponse> {
+      return ipcRenderer.invoke(IPC.CEP.FIND, req)
+    },
+  },
+  is: {
+    dev(): Promise<boolean> {
+      return ipcRenderer.invoke(IPC.IS.DEV)
+    },
+  },
+  test: {
+    run(): Promise<string> {
+      return ipcRenderer.invoke(IPC.TEST.RUN)
+    },
+  },
+  finisher: {
+    create(req: InsertFinisherTableDTO): Promise<CreateFinisherResponse> {
+      return ipcRenderer.invoke(IPC.FINISHER.CREATE, req)
+    },
+    delete(req: DeleteFinisherTableDTO): Promise<DeleteFinisherResponse> {
+      return ipcRenderer.invoke(IPC.FINISHER.DELETE, req)
+    },
+    update(req: UpdateFinisherTableDTO): Promise<UpdateFinisherResponse> {
+      return ipcRenderer.invoke(IPC.FINISHER.UPDATE, req)
+    },
+    fetchAll(req: FetchListFinisherDTO): Promise<FetchListFinisherResponse> {
+      return ipcRenderer.invoke(IPC.FINISHER.FETCH_ALL, req)
+    },
+    fetch(req: GetFinisherTableDTO): Promise<FetchFinisherResponse> {
+      return ipcRenderer.invoke(IPC.FINISHER.FETCH, req)
+    },
+    fetchByCode(
+      req: GetFinisherByCodeTableDTO,
+    ): Promise<FetchFinisherResponse> {
+      return ipcRenderer.invoke(IPC.FINISHER.FETCH_BY_CODE, req)
+    },
+  },
+  fx: {
+    generate(): Promise<GenerateFxResponse> {
+      return ipcRenderer.invoke(IPC.FX.GENERATE)
+    },
+  },
   group: {
     create(req: insertGroupTableDTO): Promise<CreateGroupResponse> {
       return ipcRenderer.invoke(IPC.GROUP.CREATE, req)
@@ -101,6 +188,33 @@ const api = {
     },
     select(req: selectGroupByIdTableDTO): Promise<SelectGroupResponse> {
       return ipcRenderer.invoke(IPC.GROUP.SELECT, req)
+    },
+  },
+  lv: {
+    readFiles(): Promise<ReadFilesLvResponse> {
+      return ipcRenderer.invoke(IPC.LV.READ_FILES)
+    },
+  },
+  migration: {
+    run(): Promise<ErrorResponse> {
+      return ipcRenderer.invoke(IPC.MIGRATION.RUN)
+    },
+  },
+  pdv: {
+    create(req: InsertPdvTableDTO): Promise<CreatePdvResponse> {
+      return ipcRenderer.invoke(IPC.PDV.CREATE, req)
+    },
+    fetchAll(): Promise<FetchAllPdvResponse> {
+      return ipcRenderer.invoke(IPC.PDV.FETCH_ALL)
+    },
+    fetch(req: GetPdvTableDTO): Promise<FetchPdvResponse> {
+      return ipcRenderer.invoke(IPC.PDV.FETCH, req)
+    },
+    update(req: UpdatePdvTableDTO): Promise<UpdatePdvResponse> {
+      return ipcRenderer.invoke(IPC.PDV.UPDATE, req)
+    },
+    delete(req: DeletePdvTableDTO): Promise<DeletePdvResponse> {
+      return ipcRenderer.invoke(IPC.PDV.DELETE, req)
     },
   },
   origin: {
@@ -177,12 +291,32 @@ const api = {
       return ipcRenderer.invoke(IPC.TAXE.UPDATE, req)
     },
   },
+  sellsProduct: {
+    create(
+      req: InsertSellsProductTableDTO,
+    ): Promise<CreateSellsProductResponse> {
+      return ipcRenderer.invoke(IPC.SELLS_PRODUCT.CREATE, req)
+    },
+    update(
+      req: UpdateSellsProductTableDTO,
+    ): Promise<UpdateSellsProductTableResponse> {
+      return ipcRenderer.invoke(IPC.SELLS_PRODUCT.UPDATE, req)
+    },
+    delete(
+      req: DeleteSellsProductTableDTO,
+    ): Promise<DeleteSellsProductTableResponse> {
+      return ipcRenderer.invoke(IPC.SELLS_PRODUCT.DELETE, req)
+    },
+  },
   state: {
     getStates(): Promise<GetStatesTableResponse> {
       return ipcRenderer.invoke(IPC.STATES.GET_STATES)
     },
     getCities(req: GetCitiesRequest): Promise<GetCitiesResponse> {
       return ipcRenderer.invoke(IPC.STATES.GET_CITIES, req)
+    },
+    searchCity(req: SearchCityRequest): Promise<SearchCityResponse> {
+      return ipcRenderer.invoke(IPC.STATES.SEARCH_CITY, req)
     },
   },
   store: {
@@ -197,7 +331,7 @@ const api = {
     },
     update(req: UpdateStoreRequest): Promise<UpdateStoreResponse> {
       return ipcRenderer.invoke(IPC.STORES.UPDATE, req)
-    }
+    },
   },
   user: {
     create(req: insertUserTableDTO): Promise<CreateUserResponse> {

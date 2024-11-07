@@ -21,6 +21,10 @@ export type GetCitiesRequest = {
   uf: string
 }
 
+export type SearchCityRequest = {
+  city: string
+}
+
 /**
  * Responses
  */
@@ -31,4 +35,8 @@ export type GetStatesTableResponse = ErrorResponse & {
 
 export type GetCitiesResponse = ErrorResponse & {
   data?: City[]
+}
+
+export type SearchCityResponse = ErrorResponse & {
+  data?: City
 }

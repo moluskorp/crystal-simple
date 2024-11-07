@@ -5,7 +5,6 @@ import { createFileRoute, createURLRoute } from 'electron-router-dom'
 
 import icon from '../../resources/icon.png?asset'
 import './ipc'
-import { runMigrations } from './migrations'
 
 function createWindow(): void {
   const mainWindow = new BrowserWindow({
@@ -14,6 +13,8 @@ function createWindow(): void {
     show: false,
     minWidth: 950,
     minHeight: 700,
+    skipTaskbar: true,
+    roundedCorners: true,
     autoHideMenuBar: true,
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
@@ -48,20 +49,23 @@ function createWindow(): void {
   }
 }
 
-app.whenReady().then(() => {
+async function start() {
+  await app.whenReady()
   electronApp.setAppUserModelId('com.electron')
   app.on('browser-window-created', (_, window) => {
     optimizer.watchWindowShortcuts(window)
   })
 
-  runMigrations().then(() => {
-    createWindow()
-  })
+  // await executeMigration()
+
+  createWindow()
 
   app.on('activate', function () {
     if (BrowserWindow.getAllWindows().length === 0) createWindow()
   })
-})
+}
+
+start()
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {

@@ -13,6 +13,7 @@ asarUnpack:
   - resources/**
 extraFiles:
   - 'src/data/**/*'
+  - 'src/data/*'
 afterSign: build/notarize.js
 win:
   executableName: crystal-simple

@@ -6,6 +6,7 @@ export type Store = {
   storeAlias: string
   cnpj: string
   street: string
+  ie: string
   number: string
   district: string
   city: string
